@@ -5,7 +5,9 @@
 " License	  : This file is placed in the public domain.
 
 " TODO
-" *
+" * Make zeavim.txt file (Zeavim doc).
+" * Make a function (Or other) for calling Zeal with the
+" selection from visual mode.
 
 
 if exists("g:zeavim")
