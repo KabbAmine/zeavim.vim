@@ -143,6 +143,7 @@ function s:Make1stLetterUpperCase(string)
 
 endfunction
 function s:GetVisualSelection()
+	" Return the visual selection.
 
 	let s:selection=getline("'<")
 	let [line1,col1] = getpos("'<")[1:2]
@@ -184,12 +185,7 @@ function s:GetDocsetNameFromTheList(fileExtension, fileType)
 
 endfunction
 function s:GetDocsetName()
-	"  Get and return the appropriate docset name:
-	"	- From the extension (According to
-	"	's:GetDocsetNameFromTheList').
-	"	- If not, from the 'filetype' option.
-	"	- If none of them is present, return a simple message.
-	" Set a 0 value if the process failed.
+	"  Get and return the appropriate docset name.
 
 	let s:fileExtension = expand("%:e")
 	let s:fileType = &filetype
