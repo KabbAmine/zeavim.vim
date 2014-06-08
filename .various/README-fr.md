@@ -36,14 +36,15 @@ Puis proc&eacute;dez &agrave; l'installation de l'extension avec la ligne de com
 Utilisation
 -----------
 
-Il y a 3 moyens d'utiliser zeavim:
+Il y a 4 moyens d'utiliser zeavim:
 
-1.	`<leader>z` - Pour ex&eacute;cuter Zeal avec le mot courant (Sous le curseur) en tant que mot-cl&eacute; et le type de fichier (Ou extension parfois) comme nom de docset.
-2.	`<leader>Z` (Notez le z majuscule) - Pour utiliser le type de fichier en tant que docset et la possibilit&eacute; de sp&eacute;cifier le mot-cl&eacute; manuellement.
+1.	`<leader>z` - Pour ex&eacute;cuter Zeal avec le mot courant (Sous le curseur) en tant que mot-cl&eacute; et le type de fichier (Ou extension parfois) comme nom de docset (Mode NORMAL).
+2.	`<leader>z` - Pour ex&eacute;cuter Zeal avec la sélection visuelle courante (Sous le curseur) en tant que mot-cl&eacute; et le type de fichier (Ou extension parfois) comme nom de docset (Mode VISUEL).
+3.	`<leader>Z` (Notez le z majuscule) - Pour utiliser le type de fichier en tant que docset et la possibilit&eacute; de sp&eacute;cifier le mot-cl&eacute; manuellement.
 
 	![Zeavim avec &lt;leader&gt;Z](img/leader-Z.jpg)
 
-3.	`<leader><leader>z` - Pour sp&eacute;cifier le mot-cl&eacute; et le docset manuellement.
+4.	`<leader><leader>z` - Pour sp&eacute;cifier le mot-cl&eacute; et le docset manuellement.
 
 	![Zeavim avec &lt;leader&gt;&lt;leader&gt;z](img/leader-leader-z.jpg)
 
@@ -53,9 +54,13 @@ Raccourcis clavier
 
 Vous pouvez facilement changer les raccourcis claviers de zeavim:
 
--	Pour `<leader>z`
+-	Pour `<leader>z` (Mode NORMAL)
 
 		nmap NOUVEAU_RACCOURCI <Plug>ZVCall
+
+-	Pour `<leader>z` (Mode VISUEL)
+
+		nmap NOUVEAU_RACCOURCI <Plug>ZVVisualSelecCall
 
 -	Pour `<leader>Z`
 
@@ -65,7 +70,7 @@ Vous pouvez facilement changer les raccourcis claviers de zeavim:
 
 		nmap NOUVEAU_RACCOURCI <Plug>ZVKeyDoc
 
-Ou vous pouvez, d'une mani&egrave;re globale, changer la touche `<leader>` de Vim (Qui est / par d&eacute;faut) en ajoutant dans votre vimrc:
+Ou vous pouvez, d'une mani&egrave;re globale, changer la touche `<leader>` de Vim (Qui est `/` par d&eacute;faut) en ajoutant dans votre vimrc:
 
 	let mapleader="NOUVELLE_TOUCHE_LEADER"
 

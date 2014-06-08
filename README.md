@@ -36,14 +36,15 @@ Then proceed to the installation of the plugin with the following command:
 Usage
 -----
 
-They are 3 ways of using zeavim:
+They are 4 ways of using zeavim:
 
-1.	`<leader>z` - To execute Zeal with the current word as a keyword and the file type (Or file extension some times) as a docset.
-2.	`<leader>Z` (Note the capital z) - To use the file type as a docset and specify the keyword manually.
+1.	`<leader>z` - To execute Zeal with the current word as a keyword and the file type (Or file extension some times) as a docseti (NORMAL mode).
+2.	`<leader>z` - To execute Zeal with the current visual selection as a keyword and the file type (Or file extension some times) as a docset (VISUAL mode).
+3.	`<leader>Z` (Note the capital z) - To use the file type as a docset and specify the keyword manually.
 
 	![Zeavim using &lt;leader&gt;Z](.various/img/leader-Z.jpg)
 
-3.	`<leader><leader>z` - To specify manually both keyword and docset.
+4.	`<leader><leader>z` - To specify manually both keyword and docset.
 
 	![Zeavim using &lt;leader&gt;&lt;leader&gt;z](.various/img/leader-leader-z.jpg)
 
@@ -53,9 +54,13 @@ Mapping
 
 You can easily change the mapping keys of zeavim:
 
--	For `<leader>z`
+-	For `<leader>z` (NORMAL mode)
 
 		nmap NEW_MAPPING <Plug>ZVCall
+
+-	For `<leader>z` (VISUAL mode)
+
+		vmap NEW_MAPPING <Plug>ZVVisualSelecCall
 
 -	For `<leader>Z`
 
@@ -65,7 +70,7 @@ You can easily change the mapping keys of zeavim:
 
 		nmap NEW_MAPPING <Plug>ZVKeyDoc
 
-Or you can in a global way change the leader key in Vim (Is / by default) by putting in your vimrc:
+Or you can in a global way change the leader key in Vim (`/` by default) by putting in your vimrc:
 
 	let mapleader="NEW_LEADER_KEY"
 
