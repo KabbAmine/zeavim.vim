@@ -1,6 +1,6 @@
 " Global plugin that allows executing Zeal from Vim.
 " Creation	  : 2014-04-14
-" Last Change : 2014-05-13
+" Last Change : 2014-06-08
 " Maintainer  : Kabbaj Amine <amine.kabb@gmail.com>
 " License	  : This file is placed in the public domain.
 
@@ -135,6 +135,14 @@ function s:Make1stLetterUpperCase(string)
 		let s:stringUpper = toupper(strpart(a:string, 0, 1)).tolower(strpart(a:string, 1))
 		return s:stringUpper
 	endif
+
+endfunction
+function s:GetVisualSelection()
+
+	let s:selection=getline("'<")
+	let [line1,col1] = getpos("'<")[1:2]
+	let [line2,col2] = getpos("'>")[1:2]
+	return s:selection[col1 - 1: col2 - 1]
 
 endfunction
 
