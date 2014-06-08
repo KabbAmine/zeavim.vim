@@ -1,0 +1,140 @@
+*zeavim.txt*	Execute the documentation browser Zeal from Vim.
+
+    For Vim version 7.0 and above	Last change: 2014-06-09
+
+	ZEAVIM - EXECUTE THE DOCUMENTATION BROWSER ZEAL FROM VIM~
+						from Kabbaj Amine~
+
+Mail    : amine.kabb@gmail.com
+Repo    : https://github.com/KabbAmine/zeavim.vim
+License : This file is placed in the public domain.
+
+========================================================================
+|CONTENTS|				*zeavim-contents*
+
+1. DESCRIPTION				|zeavim-description|
+2. INSTALLATION				|zeavim-installation|
+3. USAGE				|zeavim-usage|
+4. MAPPING				|zeavim-mapping|
+5. SETTINGS				|zeavim-settings|
+6. NOTES				|zeavim-notes|
+
+========================================================================
+DESCRIPTION				*zeavim-description*
+
+Zeavim allows to use Zeal(http://zealdocs.org) documentation browser directly from Vim(http://vim.org).
+
+This plugin was tested in GNU/Linux and Windows.
+
+========================================================================
+|INSTALLATION|				*zeavim-installation*
+
+To use zeavim, you need of course to have Zeal installed. Grab it from here(http://zealdocs.org/download.html) and install it .
+
+------------------------------------------------------------------------
+Manual installation~
+
+Install the distributed files into Vim runtime directory which is usually `~/.vim/`, or `$HOME/vimfiles` on Windows.
+
+Using Pathogen~
+
+If you're using pathogen, extract the file into `bundle` directory.
+
+Using Vundle~
+
+Just add the following line in the Vundle part of your vimrc >
+    Plugin 'KabbAmine/zeavim.vim'
+Then proceed to the installation of the plugin with the following command: >
+    :PluginInstall
+<
+========================================================================
+USAGE					*zeavim-usage*
+
+1.  `<leader>z`
+    To execute Zeal with the current word as a keyword and the file type (Or file extension some times) as a docset (NORMAL mode).
+
+2.  `<leader>z`
+    To execute Zeal with the current visual selection as a keyword and the file type (Or file extension some times) as a docset (VISUAL mode).
+
+3.  `<leader>Z`(Note the capital z)
+    To use the file type as a docset and specify the keyword manually.
+
+4.  `<leader><leader>z`
+    To specify manually both keyword and docset.
+
+========================================================================
+|MAPPING|				*zeavim-mapping*
+
+------------------------------------------------------------------------
+Default mappings~
+
+<Leader>z   or   <Plug>ZVCall
+	Launch Zeal with the current {word} as a keyword and the appropriate docset.
+
+<Leader>Z   or   <Plug>ZVKeyCall
+	Launch Zeal with the current 'filetype' option as a docset and specify the keyword manually.
+
+<Leader><leader>Z   or   <Plug>ZVKeyDoc
+	Specify a docset and keyword then launch Zeal.
+
+<Leader>z   or   <Plug>ZVVisualSelecCall
+	Lauch Zeal with the current visual selection as a keyword and the
+	appropriate docset.
+
+------------------------------------------------------------------------
+Custom mappings~
+
+You can easily change the default mapping for each action.
+
+For example: >
+    nmap ,z <Plug>ZVKeyCall
+
+Notice that for changing `<leader>z` in visual mode it's preferable to use
+`vmap` >
+    vmap ,,z <Plug>ZVVisualSelecCall
+>
+========================================================================
+|SETTINGS|				*zeavim-settings*
+
+------------------------------------------------------------------------
+Zeal's location~
+
+By default zeavim assume that `zeal` is located in `%ProgramFiles/Zeal/zeal.exe` for Windows and `/usr/bin/zeal` for UNIX systems.
+You can specify Zeal's location manually by adding in your vimrc: >
+    if has('win32') || has('win64')
+	    let g:ZV_zeal_directory = " path\\to\\zeal.exe\""
+    else
+	    let g:ZV_zeal_directory = "/usr/bin/zeal"
+    endif
+
+------------------------------------------------------------------------
+Adding file types~
+
+Zeavim generates the zeal docset name from the extension (Or the filetype vim option) of the current file, but if you need to add some other file types, you can create in your vimrc a dictionnary with the extension or the vim file type as the key and the value as the docset name: >
+    let g:ZV_added_files_type = {
+    	\ 'FILE_TYPE': 'DOCSET_NAME',
+	\ 'EXTENSION2': 'DOCSET_NAME2',
+	\ }
+As an example (Those file types are already included into zeavim): >
+    let g:ZV_added_files_type = {
+	\ 'cpp': 'C++',
+	\ 'js': 'Javascript',
+	\ 'md': 'Markdown',
+	\ 'mdown': 'Markdown',
+	\ 'mkd': 'Markdown',
+	\ 'scss': 'Sass',
+	\ }
+<
+========================================================================
+|NOTES|					*zeavim-notes*
+
+Zeavim is my first vim plugin and it was created in the beginning for a personal use, so please feel free to report bug(s) and contact me if you want, I usually answer in 1-2 days.
+
+Thank to Jerzy Kozera(https://github.com/jkozera) for creating such wonderful open-source application.
+
+Thank to Bram Moolenaar for creating the best piece of software in the world :D
+
+Thank to you if you're using zeavim.
+
+========================================================================
+vim:tw=78:ts=8:ft=help:norl:noet
