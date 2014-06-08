@@ -6,8 +6,6 @@
 
 " TODO
 " * Make zeavim.txt file (Zeavim doc).
-" * Make a function (Or other) for calling Zeal with the
-" selection from visual mode.
 
 
 if exists("g:zeavim")
@@ -45,6 +43,13 @@ if !hasmapto('<Plug>ZVKeyDoc')
 endif
 nnoremap <unique> <script> <Plug>ZVKeyDoc <SID>ZVKeyDoc
 nnoremap <silent> <SID>ZVKeyDoc  :call <SID>CallZealWithKeywordAndDocset()<CR>
+" }
+" Call Zeal with the current visual selection {
+if !hasmapto('<Plug>ZVVisualSelecCall')
+	vmap <unique> <Leader>z  <Plug>ZVVisualSelecCall
+endif
+vnoremap <unique> <script> <Plug>ZVVisualSelecCall <SID>ZVVIsualSelec
+vnoremap <silent> <SID>ZVVIsualSelec  :call <SID>CallZealWithSelection()<CR>
 " }
 
 
@@ -268,7 +273,19 @@ function s:CallZealWithKeywordAndDocset()
 	endif
 
 endfunction
+function s:CallZealWithSelection()
+	" Call Zeal with the current visual selection.
 
+	if s:CheckZeal() == 1
+		let s:docsetName = s:GetDocsetName()
+		let s:selection = s:GetVisualSelection()
+
+		if (s:selection != "") && (s:docsetName != "")
+			call s:ExecuteZeal(s:docsetName, s:selection)
+		endif
+	endif
+
+endfunction
 
 let &cpoptions = s:save_cpoptions
 unlet s:save_cpoptions
