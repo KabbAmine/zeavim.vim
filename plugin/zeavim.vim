@@ -5,7 +5,6 @@
 " License	  : This file is placed in the public domain.
 
 " TODO
-" * Make zeavim.txt file (Zeavim doc).
 
 
 if exists("g:zeavim")
