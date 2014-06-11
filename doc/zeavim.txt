@@ -1,6 +1,6 @@
 *zeavim.txt*	Execute the documentation browser Zeal from Vim.
 
-    For Vim version 7.0 and above	Last change: 2014-06-09
+    For Vim version 7.0 and above	Last change: 2014-06-11
 
 	ZEAVIM - EXECUTE THE DOCUMENTATION BROWSER ZEAL FROM VIM~
 						from Kabbaj Amine~
@@ -20,7 +20,7 @@ License : This file is placed in the public domain.
 6. NOTES				|zeavim-notes|
 
 ========================================================================
-DESCRIPTION				*zeavim-description*
+|DESCRIPTION|				*zeavim-description*
 
 Zeavim allows to use Zeal(http://zealdocs.org) documentation browser directly from Vim(http://vim.org).
 
@@ -48,7 +48,7 @@ Then proceed to the installation of the plugin with the following command: >
     :PluginInstall
 <
 ========================================================================
-USAGE					*zeavim-usage*
+|USAGE|					*zeavim-usage*
 
 1.  `<leader>z`
     To execute Zeal with the current word as a keyword and the file type (Or file extension some times) as a docset (NORMAL mode).
