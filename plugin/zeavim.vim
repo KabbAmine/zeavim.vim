@@ -1,6 +1,6 @@
 " Global plugin that allows executing Zeal from Vim.
 " Creation	  : 2014-04-14
-" Last Change : 2014-06-08
+" Last Change : 2014-07-10
 " Maintainer  : Kabbaj Amine <amine.kabb@gmail.com>
 " License	  : This file is placed in the public domain.
 
@@ -145,8 +145,10 @@ function s:GetVisualSelection()
 	" Return the visual selection.
 
 	let s:selection=getline("'<")
+	let s:cursorPos=getpos("'<'")
 	let [line1,col1] = getpos("'<")[1:2]
 	let [line2,col2] = getpos("'>")[1:2]
+	call setpos('.', s:cursorPos)
 	return s:selection[col1 - 1: col2 - 1]
 
 endfunction
