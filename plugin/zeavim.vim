@@ -1,6 +1,6 @@
 " Global plugin that allows executing Zeal from Vim.
 " Creation	  : 2014-04-14
-" Last Change : 2014-07-10
+" Last Change : 2014-08-19
 " Maintainer  : Kabbaj Amine <amine.kabb@gmail.com>
 " License	  : This file is placed in the public domain.
 
@@ -216,8 +216,9 @@ function s:ExecuteZeal(docsetName, selection)
 	if has ('win32') || has('win64')
 		execute s:executeZeal
 	else
-		execute s:executeZeal." &"
+		execute s:executeZeal." & 2> /dev/null"
 	endif
+	redraw!
 
 endfunction
 
