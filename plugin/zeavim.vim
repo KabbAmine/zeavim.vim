@@ -1,6 +1,6 @@
 " Global plugin that allows executing Zeal from Vim.
 " Creation	  : 2014-04-14
-" Last Change : 2014-08-19
+" Last Change : 2014-08-23
 " Maintainer  : Kabbaj Amine <amine.kabb@gmail.com>
 " License	  : This file is placed in the public domain.
 
@@ -22,34 +22,36 @@ set cpoptions&vim
 " MAPPINGS
 " =====================================================================
 
-" Call Zeal normally {
-if !hasmapto('<Plug>ZVCall')
-	nmap <unique> <Leader>z  <Plug>ZVCall
+if !exists('g:ZV_disable_mapping')
+	" Call Zeal normally {
+	if !hasmapto('<Plug>ZVCall')
+		nmap <unique> <Leader>z  <Plug>ZVCall
+	endif
+	nnoremap <unique> <script> <Plug>ZVCall <SID>ZV
+	nnoremap <silent> <SID>ZV  :call <SID>CallZealNormally("<cword>")<CR>
+	" }
+	" Call Zeal with keyword as an input {
+	if !hasmapto('<Plug>ZVKeyCall')
+		nmap  <unique> <Leader>Z  <Plug>ZVKeyCall
+	endif
+	nnoremap <unique> <script> <Plug>ZVKeyCall <SID>ZVKey
+	nnoremap <silent> <SID>ZVKey  :call <SID>CallZealWithKeyword()<CR>
+	" }
+	" Call Zeal with docset and keyword as an inputs {
+	if !hasmapto('<Plug>ZVKeyDoc')
+		nmap <unique> <Leader><leader>z  <Plug>ZVKeyDoc
+	endif
+	nnoremap <unique> <script> <Plug>ZVKeyDoc <SID>ZVKeyDoc
+	nnoremap <silent> <SID>ZVKeyDoc  :call <SID>CallZealWithKeywordAndDocset()<CR>
+	" }
+	" Call Zeal with the current visual selection {
+	if !hasmapto('<Plug>ZVVisualSelecCall')
+		vmap <unique> <Leader>z  <Plug>ZVVisualSelecCall
+	endif
+	vnoremap <unique> <script> <Plug>ZVVisualSelecCall <SID>ZVVIsualSelec
+	vnoremap <silent> <SID>ZVVIsualSelec  :call <SID>CallZealWithSelection()<CR>
+	" }
 endif
-nnoremap <unique> <script> <Plug>ZVCall <SID>ZV
-nnoremap <silent> <SID>ZV  :call <SID>CallZealNormally("<cword>")<CR>
-" }
-" Call Zeal with keyword as an input {
-if !hasmapto('<Plug>ZVKeyCall')
-	nmap  <unique> <Leader>Z  <Plug>ZVKeyCall
-endif
-nnoremap <unique> <script> <Plug>ZVKeyCall <SID>ZVKey
-nnoremap <silent> <SID>ZVKey  :call <SID>CallZealWithKeyword()<CR>
-" }
-" Call Zeal with docset and keyword as an inputs {
-if !hasmapto('<Plug>ZVKeyDoc')
-	nmap <unique> <Leader><leader>z  <Plug>ZVKeyDoc
-endif
-nnoremap <unique> <script> <Plug>ZVKeyDoc <SID>ZVKeyDoc
-nnoremap <silent> <SID>ZVKeyDoc  :call <SID>CallZealWithKeywordAndDocset()<CR>
-" }
-" Call Zeal with the current visual selection {
-if !hasmapto('<Plug>ZVVisualSelecCall')
-	vmap <unique> <Leader>z  <Plug>ZVVisualSelecCall
-endif
-vnoremap <unique> <script> <Plug>ZVVisualSelecCall <SID>ZVVIsualSelec
-vnoremap <silent> <SID>ZVVIsualSelec  :call <SID>CallZealWithSelection()<CR>
-" }
 
 
 " VARIABLES
@@ -65,7 +67,7 @@ vnoremap <silent> <SID>ZVVIsualSelec  :call <SID>CallZealWithSelection()<CR>
 			let g:ZV_zeal_directory = "/usr/bin/zeal"
 		endif
 	endif
-	" }
+" }
 
 " Local variables
 " ************************
