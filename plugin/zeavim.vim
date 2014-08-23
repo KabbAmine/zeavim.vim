@@ -54,6 +54,14 @@ if !exists('g:ZV_disable_mapping')
 endif
 
 
+" COMMANDS
+" =====================================================================
+command! ZVnor call s:CallZealNormally("<cword>")
+command! ZVkey call s:CallZealWithKeyword()
+command! ZVkeyDoc call s:CallZealWithKeywordAndDocset()
+command! -range ZVvis call s:CallZealWithSelection()
+
+
 " VARIABLES
 " =====================================================================
 
