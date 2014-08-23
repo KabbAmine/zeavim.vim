@@ -74,6 +74,15 @@ Or you can in a global way change the leader key in Vim (`/` by default) by putt
 
 	let mapleader="NEW_LEADER_KEY"
 
+Commands
+-------
+
+For those of you who prefer using commands, here they are:
+
+	ZVnor			" Normal
+	ZVvis			" VISUAL mode
+	ZVkey			" Type keyword
+	ZVkeyDoc	" Type docset and keyword
 
 Customization
 -------------
@@ -109,6 +118,11 @@ As an example (Those file types are already included into zeavim):
 				\ 'scss': 'Sass',
 				\ }
 
+### Disable default mappings
+
+You can disable the default mappings by adding to your vimrc:
+
+    let g:ZV_disable_mapping = 1
 
 Notes
 -----

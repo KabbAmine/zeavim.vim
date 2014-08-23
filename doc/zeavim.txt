@@ -1,6 +1,6 @@
 *zeavim.txt*	Execute the documentation browser Zeal from Vim.
 
-    For Vim version 7.0 and above	Last change: 2014-06-11
+    For Vim version 7.0 and above	Last change: 2014-08-23
 
 	ZEAVIM - EXECUTE THE DOCUMENTATION BROWSER ZEAL FROM VIM~
 						from Kabbaj Amine~
@@ -21,10 +21,13 @@ License : This file is placed in the public domain.
 4. MAPPING				|zeavim-mapping|
     4.1. Default mapping.		|zeavim-mapping:default|
     4.2. Custom mapping			|zeavim-mapping:custom|
-5. SETTINGS				|zeavim-settings|
-    5.1. Zeal's location		|zeavim-settings:location|
-    5.2. Add file types			|zeavim-settings:new-types|
-6. NOTES				|zeavim-notes|
+5. COMMANDS				|zeavim-command|
+    5.1. Main commands			|zeavim-command:main|
+6. SETTINGS				|zeavim-settings|
+    6.1. Zeal's location		|zeavim-settings:location|
+    6.2. Add file types			|zeavim-settings:new-types|
+    6.3. Disable default mappings	|zeavim-settings:no-mapping|
+7. NOTES				|zeavim-notes|
 
 ========================================================================
 1. |DESCRIPTION|			*zeavim-description*
@@ -108,10 +111,25 @@ Notice that for changing `<leader>z` in visual mode it's preferable to use
     vmap ,,z <Plug>ZVVisualSelecCall
 >
 ========================================================================
-5. |SETTINGS|				*zeavim-settings*
+5. |COMMANDS|				*zeavim-commands*
 
 ------------------------------------------------------------------------
-5.1. Zeal's location~
+5.1. Main commands~
+*zeavim-command:main*
+
+If you prefer, you can use commands instead of keyboard shortcuts.
+
+Here are all of them: >
+	ZVnor		" Normal
+	ZVvis		" For VISUAL selection
+	ZVkey		" Type keyword
+	ZVkeyDoc	" Type docset and keyword
+
+========================================================================
+6. |SETTINGS|				*zeavim-settings*
+
+------------------------------------------------------------------------
+6.1. Zeal's location~
 *zeavim-settings:location*
 
 By default zeavim assume that `zeal` is located in `%ProgramFiles/Zeal/zeal.exe` for Windows and `/usr/bin/zeal` for UNIX systems.
@@ -123,7 +141,7 @@ You can specify Zeal's location manually by adding in your vimrc: >
     endif
 
 ------------------------------------------------------------------------
-5.2. Adding file types~
+6.2. Adding file types~
 *zeavim-settings:new-types*
 
 Zeavim generates the zeal docset name from the extension (Or the filetype vim option) of the current file, but if you need to add some other file types, you can create in your vimrc a dictionnary with the extension or the vim file type as the key and the value as the docset name: >
@@ -141,8 +159,15 @@ As an example (Those file types are already included into zeavim): >
 	\ 'scss': 'Sass',
 	\ }
 <
+------------------------------------------------------------------------
+6.3. Disable default mappings
+*zeavim-settings:no-mapping*
+
+You can disable the default mappings by adding to your vimrc: >
+    let g:ZV_disable_mapping = 1
+
 ========================================================================
-6. |NOTES|				*zeavim-notes*
+7. |NOTES|				*zeavim-notes*
 
 Zeavim is my first vim plugin and it was created in the beginning for a personal use, so please feel free to report bug(s) and contact me if you want, I usually answer in 1-2 days.
 
