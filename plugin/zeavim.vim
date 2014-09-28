@@ -4,17 +4,15 @@
 " Maintainer  : Kabbaj Amine <amine.kabb@gmail.com>
 " License	  : This file is placed in the public domain.
 
-" TODO
 
-
-if exists("g:zeavim")
+if exists("g:zeavim_loaded")
 	finish
 endif
-let g:zeavim = 1
+let g:zeavim_loaded = 1
 
 " To avoid conflict problems.
-let s:save_file_format = &fileformat
-let s:save_cpoptions = &cpoptions
+let s:saveFileFormat = &fileformat
+let s:saveCpoptions = &cpoptions
 set fileformat=unix
 set cpoptions&vim
 
@@ -22,7 +20,8 @@ set cpoptions&vim
 " MAPPINGS
 " =====================================================================
 
-if !exists('g:ZV_disable_mapping')
+" {
+if !exists('g:zv_disable_mapping')
 	" Call Zeal normally {
 	if !hasmapto('<Plug>ZVCall')
 		nmap <unique> <Leader>z  <Plug>ZVCall
@@ -52,40 +51,38 @@ if !exists('g:ZV_disable_mapping')
 	vnoremap <silent> <SID>ZVVIsualSelec  :call <SID>CallZealWithSelection()<CR>
 	" }
 endif
+" }
 
 
 " COMMANDS
 " =====================================================================
+" {
 command! ZVnor call s:CallZealNormally("<cword>")
 command! ZVkey call s:CallZealWithKeyword()
 command! ZVkeyDoc call s:CallZealWithKeywordAndDocset()
 command! -range ZVvis call s:CallZealWithSelection()
 " Set manually the docset.
 command! -nargs=? Docset :let s:manualDocset = '<args>'
+" }
 
 
 " VARIABLES
 " =====================================================================
 
-" Global variables
-" ************************
 " Set Zeal's Location {
-	if !exists('g:ZV_zeal_directory')
+	if !exists('g:zv_zeal_directory')
 		if has('win32') || has('win64')
-			let g:ZV_zeal_directory = $ProgramFiles."/Zeal/zeal.exe"
+			let g:zv_zeal_directory = $ProgramFiles."/Zeal/zeal.exe"
 		else
-			let g:ZV_zeal_directory = "/usr/bin/zeal"
+			let g:zv_zeal_directory = "/usr/bin/zeal"
 		endif
 	endif
 " }
-
-" Local variables
-" ************************
 " Set Zeal's execution command {
 	if has('win32') || has('win64')
-		let s:zeavimExecutionCommand = "!start \"".g:ZV_zeal_directory."\""
+		let s:zeavimExecutionCommand = "!start \"".g:zv_zeal_directory."\""
 	else
-		let s:zeavimExecutionCommand = "! ".g:ZV_zeal_directory.""
+		let s:zeavimExecutionCommand = "! ".g:zv_zeal_directory." 2> /dev/null"
 	endif
 " }
 " A dictionary who contains the docset names of some file extensions {
@@ -108,11 +105,11 @@ command! -nargs=? Docset :let s:manualDocset = '<args>'
 				\ 'tex': 'Latex',
 				\ }
 " }
-" GLOBAL VARIABLE - Add the external docset names from a global variable {
-	if exists("g:ZV_added_files_type")
-		call extend(s:zeavimDocsetNames, g:ZV_added_files_type, "error")
+" Add the external docset names from a global variable {
+	if exists("g:zv_added_files_type")
+		call extend(s:zeavimDocsetNames, g:zv_added_files_type, "error")
 	else
-		let g:ZV_added_files_type = {}
+		let g:zv_added_files_type = {}
 	endif
 " }
 
@@ -169,9 +166,9 @@ endfunction
 " ************************
 function s:CheckZeal()
 	" Check if the Zeal's executable is present according to the global
-	" variable ZV_zeal_directory and return 0 if not
+	" variable zv_zeal_directory and return 0 if not
 
-	if !executable(g:ZV_zeal_directory)
+	if !executable(g:zv_zeal_directory)
 		call s:ShowMessage(4, "Zeal is not present in your system or his location is not defined")
 		" sleep 1
 		" execute "normal \<C-l>"
@@ -299,6 +296,6 @@ function s:CallZealWithSelection()
 
 endfunction
 
-let &cpoptions = s:save_cpoptions
-unlet s:save_cpoptions
-let &fileformat = s:save_file_format
+let &cpoptions = s:saveCpoptions
+unlet s:saveCpoptions
+let &fileformat = s:saveFileFormat
