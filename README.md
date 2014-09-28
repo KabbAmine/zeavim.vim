@@ -8,9 +8,6 @@ Zeavim allows to use [Zeal](http://zealdocs.org) documentation browser directly 
 
 This plugin was tested in GNU/Linux and Windows.
 
-You can find this README in [french](.various/README-fr.md).
-
-
 Installation
 -------------
 
@@ -36,15 +33,14 @@ Then proceed to the installation of the plugin with the following command:
 Usage
 -----
 
-They are 4 ways of using zeavim:
+They are 3 ways of using zeavim:
 
-1.	`<leader>z` - To execute Zeal with the current word as a keyword and the file type (Or file extension some times) as a docseti (NORMAL mode).
-2.	`<leader>z` - To execute Zeal with the current visual selection as a keyword and the file type (Or file extension some times) as a docset (VISUAL mode).
-3.	`<leader>Z` (Note the capital z) - To use the file type as a docset and specify the keyword manually.
+1.	`<leader>z` - To execute Zeal with the current word (Or visual selection in VISUAL mode) as a query and the file type (Sometimes file extension or a manually specified docset) as a docset.
+3.	`<leader>Z` (Note the capital *z*) - To use the file type (Sometimes file extension or a manually specified docset) as a docset and specify the query manually.
 
 	![Zeavim using &lt;leader&gt;Z](.various/img/leader-Z.jpg)
 
-4.	`<leader><leader>z` - To specify manually both keyword and docset.
+4.	`<leader><leader>z` - To specify manually both query and docset.
 
 	![Zeavim using &lt;leader&gt;&lt;leader&gt;z](.various/img/leader-leader-z.jpg)
 
@@ -54,21 +50,10 @@ Mapping
 
 You can easily change the mapping keys of zeavim:
 
--	For `<leader>z` (NORMAL mode)
-
-		nmap NEW_MAPPING <Plug>ZVCall
-
--	For `<leader>z` (VISUAL mode)
-
-		vmap NEW_MAPPING <Plug>ZVVisualSelecCall
-
--	For `<leader>Z`
-
-		nmap NEW_MAPPING <Plug>ZVKeyCall
-
--	For `<leader><leader>z`
-
-		nmap NEW_MAPPING <Plug>ZVKeyDoc
+	nmap NEW_MAPPING <Plug>Zeavim				" <leader>z (NORMAL mode)
+    vmap NEW_MAPPING <Plug>ZVVisSelection		" <leader>z (VISUAL mode)
+    nmap NEW_MAPPING <Plug>ZVKeyword			" <leader>Z
+    nmap NEW_MAPPING <Plug>ZVKeyDocset			" <leader><leader>z
 
 Or you can in a global way change the leader key in Vim (`/` by default) by putting in your vimrc:
 
@@ -77,12 +62,28 @@ Or you can in a global way change the leader key in Vim (`/` by default) by putt
 Commands
 -------
 
+### Main commands
+
 For those of you who prefer using commands, here they are:
 
-	ZVnor			" Normal
-	ZVvis			" VISUAL mode
-	ZVkey			" Type keyword
-	ZVkeyDoc	" Type docset and keyword
+	Zeavim		" Normal
+	ZvV			" VISUAL mode
+	ZvK			" Type quey
+	ZvKD		" Type docset and quey
+
+### Specify manually a docset
+
+If you need a lazy way to specify a docset, you can use:
+
+	Docset DOCSET_NAME
+
+As an example, I'm working on a `scss` file but I want to get `compass` documentation when using Zeavim, so I just need to specify manually this docset:
+
+	Docset compass
+
+Then Zeavim **only for the current buffer** will use `compass` as a docset.
+
+To revert that and get zeavim working like usually, a simple `Docset` without argument is enough.
 
 Customization
 -------------
@@ -93,23 +94,23 @@ By default zeavim assume that *zeal* is located in `%ProgramFiles/Zeal/zeal.exe`
 You can specify Zeal's location manually by adding in your vimrc:
 
 	if has('win32') || has('win64')
-		let g:ZV_zeal_directory = " path\\to\\zeal.exe\""
+		let g:zv_zeal_directory = " path\\to\\zeal.exe\""
 	else
-		let g:ZV_zeal_directory = "/usr/bin/zeal"
+		let g:zv_zeal_directory = "/usr/bin/zeal"
 	endif
 
 ### Adding file types
 
 Zeavim generates the zeal docset name from the extension (Or the filetype vim option) of the current file, but if you need to add some other file types, you can create in your vimrc a dictionnary with the extension or the vim file type as the key and the value as the docset name:
 
-	let g:ZV_added_files_type = {
+	let g:zv_added_files_type = {
 				\ 'EXTENSION': 'DOCSET_NAME',
-				\ 'EXTENSION2': 'DOCSET_NAME2',
+                \ 'FILE_TYPE': 'DOCSET_NAME',
 				\ }
 
 As an example (Those file types are already included into zeavim):
 
-	let g:ZV_added_files_type = {
+	let g:zv_added_files_type = {
 				\ 'cpp': 'C++',
 				\ 'js': 'Javascript',
 				\ 'md': 'Markdown',
@@ -122,7 +123,7 @@ As an example (Those file types are already included into zeavim):
 
 You can disable the default mappings by adding to your vimrc:
 
-    let g:ZV_disable_mapping = 1
+    let g:zv_disable_mapping = 1
 
 Notes
 -----

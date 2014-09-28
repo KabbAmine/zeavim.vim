@@ -1,12 +1,12 @@
 *zeavim.txt*	Execute the documentation browser Zeal from Vim.
 
-    For Vim version 7.0 and above	Last change: 2014-08-23
+    For Vim version 7.0 and above	Last change: 2014-09-28
 
 	ZEAVIM - EXECUTE THE DOCUMENTATION BROWSER ZEAL FROM VIM~
 						from Kabbaj Amine~
 
-Mail    : amine.kabb@gmail.com
-Repo    : https://github.com/KabbAmine/zeavim.vim
+Mail	: amine.kabb@gmail.com
+Repo	: https://github.com/KabbAmine/zeavim.vim
 License : This file is placed in the public domain.
 
 ========================================================================
@@ -23,6 +23,7 @@ License : This file is placed in the public domain.
     4.2. Custom mapping			|zeavim-mapping:custom|
 5. COMMANDS				|zeavim-command|
     5.1. Main commands			|zeavim-command:main|
+    5.2. Specify manually docset	|zeavim-command:docset|
 6. SETTINGS				|zeavim-settings|
     6.1. Zeal's location		|zeavim-settings:location|
     6.2. Add file types			|zeavim-settings:new-types|
@@ -66,16 +67,13 @@ Then proceed to the installation of the plugin with the following command: >
 3. |USAGE|				*zeavim-usage*
 
 1.  `<leader>z`
-    To execute Zeal with the current word as a keyword and the file type (Or file extension some times) as a docset (NORMAL mode).
+    To execute Zeal with the current word (Or visual selection in VISUAL mode) as a query and the file type (Sometimes file extension or a manually specified docset) as a docset.
 
-2.  `<leader>z`
-    To execute Zeal with the current visual selection as a keyword and the file type (Or file extension some times) as a docset (VISUAL mode).
-
-3.  `<leader>Z`(Note the capital z)
-    To use the file type as a docset and specify the keyword manually.
+3.  `<leader>Z` (Note the capital z)
+    To use the file type (Sometimes file extension or a manually specified docset) as a docset and specify the query manually.
 
 4.  `<leader><leader>z`
-    To specify manually both keyword and docset.
+    To specify manually both query and docset.
 
 ========================================================================
 4. |MAPPING|				*zeavim-mapping*
@@ -84,16 +82,16 @@ Then proceed to the installation of the plugin with the following command: >
 4.1. Default mappings~
 *zeavim-mapping:default*
 
-<Leader>z   or   <Plug>ZVCall
+<Leader>z   or	 <Plug>Zeavim
 	Launch Zeal with the current {word} as a keyword and the appropriate docset.
 
-<Leader>Z   or   <Plug>ZVKeyCall
+<Leader>Z   or	 <Plug>ZVKeyword
 	Launch Zeal with the current 'filetype' option as a docset and specify the keyword manually.
 
-<Leader><leader>Z   or   <Plug>ZVKeyDoc
+<Leader><leader>Z   or	 <Plug>ZVKeyDocset
 	Specify a docset and keyword then launch Zeal.
 
-<Leader>z   or   <Plug>ZVVisualSelecCall
+<Leader>z   or	 <Plug>ZVVisSelection
 	Lauch Zeal with the current visual selection as a keyword and the
 	appropriate docset.
 
@@ -104,11 +102,11 @@ Then proceed to the installation of the plugin with the following command: >
 You can easily change the default mapping for each action.
 
 For example: >
-    nmap ,z <Plug>ZVKeyCall
+    nmap ,z <Plug>Zeavim
 
 Notice that for changing `<leader>z` in visual mode it's preferable to use
 `vmap` >
-    vmap ,,z <Plug>ZVVisualSelecCall
+    vmap ,,z <Plug>ZVVisSelection
 >
 ========================================================================
 5. |COMMANDS|				*zeavim-commands*
@@ -120,10 +118,26 @@ Notice that for changing `<leader>z` in visual mode it's preferable to use
 If you prefer, you can use commands instead of keyboard shortcuts.
 
 Here are all of them: >
-	ZVnor		" Normal
-	ZVvis		" For VISUAL selection
-	ZVkey		" Type keyword
-	ZVkeyDoc	" Type docset and keyword
+	Zeavim		" Normal
+	ZvV		" VISUAL mode
+	ZvK		" Type quey
+	ZvKD		" Type docset and quey
+
+------------------------------------------------------------------------
+5.2. Specify manually docset
+*zeavim-command:docset*
+
+If you need a lazy way to specify a docset, you can use: >
+	Docset DOCSET_NAME
+
+As an example, I'm working on a `scss` file but I want to get `compass`
+documentation when using Zeavim, so I just need to specify manually this
+docset: >
+	Docset compass
+
+Then Zeavim only for the current buffer will use `compass` as a docset.
+
+To revert that and get zeavim working like usually, a simple `Docset` without argument is enough.
 
 ========================================================================
 6. |SETTINGS|				*zeavim-settings*
@@ -135,9 +149,9 @@ Here are all of them: >
 By default zeavim assume that `zeal` is located in `%ProgramFiles/Zeal/zeal.exe` for Windows and `/usr/bin/zeal` for UNIX systems.
 You can specify Zeal's location manually by adding in your vimrc: >
     if has('win32') || has('win64')
-	    let g:ZV_zeal_directory = " path\\to\\zeal.exe\""
+	    let g:zv_zeal_directory = " path\\to\\zeal.exe\""
     else
-	    let g:ZV_zeal_directory = "/usr/bin/zeal"
+	    let g:zv_zeal_directory = "/usr/bin/zeal"
     endif
 
 ------------------------------------------------------------------------
@@ -145,12 +159,12 @@ You can specify Zeal's location manually by adding in your vimrc: >
 *zeavim-settings:new-types*
 
 Zeavim generates the zeal docset name from the extension (Or the filetype vim option) of the current file, but if you need to add some other file types, you can create in your vimrc a dictionnary with the extension or the vim file type as the key and the value as the docset name: >
-    let g:ZV_added_files_type = {
-    	\ 'FILE_TYPE': 'DOCSET_NAME',
-	\ 'EXTENSION2': 'DOCSET_NAME2',
+    let g:zv_added_files_type = {
+	\ 'FILE_TYPE': 'DOCSET_NAME',
+	\ 'EXTENSION': 'DOCSET_NAME2',
 	\ }
 As an example (Those file types are already included into zeavim): >
-    let g:ZV_added_files_type = {
+    let g:zv_added_files_type = {
 	\ 'cpp': 'C++',
 	\ 'js': 'Javascript',
 	\ 'md': 'Markdown',
@@ -164,7 +178,7 @@ As an example (Those file types are already included into zeavim): >
 *zeavim-settings:no-mapping*
 
 You can disable the default mappings by adding to your vimrc: >
-    let g:ZV_disable_mapping = 1
+    let g:zv_disable_mapping = 1
 
 ========================================================================
 7. |NOTES|				*zeavim-notes*
