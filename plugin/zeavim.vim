@@ -58,7 +58,7 @@ command! Zeavim call s:Zeavim("<cword>")
 command! ZvK call s:ZVKeyword()
 command! ZvKD call s:ZVKeyDocset()
 command! -range ZvV call s:ZVVisSelection()
-command! -nargs=? Docset :let s:manualDocset = '<args>'
+command! -nargs=? Docset :let b:manualDocset = '<args>'
 " }
 
 
@@ -194,8 +194,8 @@ function s:GetDocsetName()
 	let s:fileExtension = expand("%:e")
 	let s:fileType = &filetype
 
-	if exists('s:manualDocset') && !empty(s:manualDocset)
-		let s:docsetName = s:manualDocset
+	if exists('b:manualDocset') && !empty(b:manualDocset)
+		let s:docsetName = b:manualDocset
 	elseif (s:fileType != '') || (s:fileExtension != '')
 		let s:docsetName = s:GetDocsetNameFromTheList(s:fileExtension, s:fileType)
 	else
