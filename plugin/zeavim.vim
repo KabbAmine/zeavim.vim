@@ -78,7 +78,7 @@ command! -nargs=? Docset :let b:manualDocset = '<args>'
 	if has('win32') || has('win64')
 		let s:zealExecCmd = "!start \"".g:zv_zeal_directory."\""
 	else
-		let s:zealExecCmd = "! ".g:zv_zeal_directory." 2> /dev/null"
+		let s:zealExecCmd = "! ".g:zv_zeal_directory.""
 	endif
 " A dictionary who contains the docset names of some file extensions
 	let s:zeavimDocsetNames = {
