@@ -1,6 +1,6 @@
 " Global plugin that allows executing Zeal from Vim.
 " Creation	  : 2014-04-14
-" Last Change : 2014-08-23
+" Last Change : 2014-09-28
 " Maintainer  : Kabbaj Amine <amine.kabb@gmail.com>
 " License	  : This file is placed in the public domain.
 
@@ -60,6 +60,8 @@ command! ZVnor call s:CallZealNormally("<cword>")
 command! ZVkey call s:CallZealWithKeyword()
 command! ZVkeyDoc call s:CallZealWithKeywordAndDocset()
 command! -range ZVvis call s:CallZealWithSelection()
+" Set manually the docset.
+command! -nargs=? Docset :let s:manualDocset = '<args>'
 
 
 " VARIABLES
@@ -201,7 +203,9 @@ function s:GetDocsetName()
 	let s:fileExtension = expand("%:e")
 	let s:fileType = &filetype
 
-	if (s:fileType != '') || (s:fileExtension != '')
+	if exists('s:manualDocset') && !empty(s:manualDocset)
+		let s:docsetName = s:manualDocset
+	elseif (s:fileType != '') || (s:fileExtension != '')
 		let s:docsetName = s:GetDocsetNameFromTheList(s:fileExtension, s:fileType)
 	else
 		call s:ShowMessage(2, "No file type found")
