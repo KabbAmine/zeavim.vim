@@ -22,34 +22,31 @@ set cpoptions&vim
 
 " {
 if !exists('g:zv_disable_mapping')
-	" Call Zeal normally {
-	if !hasmapto('<Plug>ZVCall')
-		nmap <unique> <Leader>z  <Plug>ZVCall
+
+	if !hasmapto('<Plug>Zeavim')
+		nmap <unique> <Leader>z  <Plug>Zeavim
 	endif
-	nnoremap <unique> <script> <Plug>ZVCall <SID>ZV
-	nnoremap <silent> <SID>ZV  :call <SID>CallZealNormally("<cword>")<CR>
-	" }
-	" Call Zeal with keyword as an input {
+	nnoremap <unique> <script> <Plug>Zeavim <SID>Zeavim
+	nnoremap <silent> <SID>Zeavim  :call <SID>Zeavim("<cword>")<CR>
+
 	if !hasmapto('<Plug>ZVKeyCall')
-		nmap  <unique> <Leader>Z  <Plug>ZVKeyCall
+		nmap  <unique> <Leader>Z  <Plug>ZVKeyword
 	endif
-	nnoremap <unique> <script> <Plug>ZVKeyCall <SID>ZVKey
-	nnoremap <silent> <SID>ZVKey  :call <SID>CallZealWithKeyword()<CR>
-	" }
-	" Call Zeal with docset and keyword as an inputs {
+	nnoremap <unique> <script> <Plug>ZVKeyword <SID>ZVKeyword
+	nnoremap <silent> <SID>ZVKeyword  :call <SID>ZVKeyword()<CR>
+
 	if !hasmapto('<Plug>ZVKeyDoc')
-		nmap <unique> <Leader><leader>z  <Plug>ZVKeyDoc
+		nmap <unique> <Leader><leader>z  <Plug>ZVKeyDocset
 	endif
-	nnoremap <unique> <script> <Plug>ZVKeyDoc <SID>ZVKeyDoc
-	nnoremap <silent> <SID>ZVKeyDoc  :call <SID>CallZealWithKeywordAndDocset()<CR>
-	" }
-	" Call Zeal with the current visual selection {
-	if !hasmapto('<Plug>ZVVisualSelecCall')
-		vmap <unique> <Leader>z  <Plug>ZVVisualSelecCall
+	nnoremap <unique> <script> <Plug>ZVKeyDocset <SID>ZVKeyDocset
+	nnoremap <silent> <SID>ZVKeyDocset  :call <SID>ZVKeyDocset()<CR>
+
+	if !hasmapto('<Plug>ZVVisSelection')
+		vmap <unique> <Leader>z  <Plug>ZVVisSelection
 	endif
-	vnoremap <unique> <script> <Plug>ZVVisualSelecCall <SID>ZVVIsualSelec
-	vnoremap <silent> <SID>ZVVIsualSelec  :call <SID>CallZealWithSelection()<CR>
-	" }
+	vnoremap <unique> <script> <Plug>ZVVisSelection <SID>ZVVisSelection
+	vnoremap <silent> <SID>ZVVisSelection  :call <SID>ZVVisSelection()<CR>
+
 endif
 " }
 
@@ -57,11 +54,10 @@ endif
 " COMMANDS
 " =====================================================================
 " {
-command! ZVnor call s:CallZealNormally("<cword>")
-command! ZVkey call s:CallZealWithKeyword()
-command! ZVkeyDoc call s:CallZealWithKeywordAndDocset()
-command! -range ZVvis call s:CallZealWithSelection()
-" Set manually the docset.
+command! Zeavim call s:Zeavim("<cword>")
+command! ZvK call s:ZVKeyword()
+command! ZvKD call s:ZVKeyDocset()
+command! -range ZvV call s:ZVVisSelection()
 command! -nargs=? Docset :let s:manualDocset = '<args>'
 " }
 
@@ -69,7 +65,8 @@ command! -nargs=? Docset :let s:manualDocset = '<args>'
 " VARIABLES
 " =====================================================================
 
-" Set Zeal's Location {
+" {
+" Set Zeal's Location
 	if !exists('g:zv_zeal_directory')
 		if has('win32') || has('win64')
 			let g:zv_zeal_directory = $ProgramFiles."/Zeal/zeal.exe"
@@ -77,15 +74,13 @@ command! -nargs=? Docset :let s:manualDocset = '<args>'
 			let g:zv_zeal_directory = "/usr/bin/zeal"
 		endif
 	endif
-" }
-" Set Zeal's execution command {
+" Set Zeal's execution command
 	if has('win32') || has('win64')
-		let s:zeavimExecutionCommand = "!start \"".g:zv_zeal_directory."\""
+		let s:zealExecCmd = "!start \"".g:zv_zeal_directory."\""
 	else
-		let s:zeavimExecutionCommand = "! ".g:zv_zeal_directory." 2> /dev/null"
+		let s:zealExecCmd = "! ".g:zv_zeal_directory." 2> /dev/null"
 	endif
-" }
-" A dictionary who contains the docset names of some file extensions {
+" A dictionary who contains the docset names of some file extensions
 	let s:zeavimDocsetNames = {
 				\ 'c': 'C',
 				\ 'cpp': 'C++',
@@ -104,8 +99,7 @@ command! -nargs=? Docset :let s:manualDocset = '<args>'
 				\ 'sh': 'Bash',
 				\ 'tex': 'Latex',
 				\ }
-" }
-" Add the external docset names from a global variable {
+" Add the external docset names from a global variable
 	if exists("g:zv_added_files_type")
 		call extend(s:zeavimDocsetNames, g:zv_added_files_type, "error")
 	else
@@ -217,11 +211,11 @@ function s:ExecuteZeal(docsetName, selection)
 	" Execute Zeal with the docset and selection passed in the arguments.
 
 	if (a:docsetName != "")
-		let s:executeZeal = "silent :".s:zeavimExecutionCommand." --query '".s:docsetName.":".a:selection."'"
+		let s:executeZeal = "silent :".s:zealExecCmd." --query '".s:docsetName.":".a:selection."'"
 	elseif (a:selection != "")
-		let s:executeZeal = "silent :".s:zeavimExecutionCommand." --query '".a:selection."'"
+		let s:executeZeal = "silent :".s:zealExecCmd." --query '".a:selection."'"
 	else
-		let s:executeZeal = "silent :".s:zeavimExecutionCommand.""
+		let s:executeZeal = "silent :".s:zealExecCmd.""
 	endif
 
 	if has ('win32') || has('win64')
@@ -235,7 +229,7 @@ endfunction
 
 " Main functions.
 " ************************
-function s:CallZealNormally(selection)
+function s:Zeavim(selection)
 	" Call Zeal normally with the argument 'selection' as a keyword.
 
 	if s:CheckZeal() == 1
@@ -248,7 +242,7 @@ function s:CallZealNormally(selection)
 	endif
 
 endfunction
-function s:CallZealWithKeyword()
+function s:ZVKeyword()
 	" Give a keyword as an input from Vim and call Zeal.
 
 	if s:CheckZeal() == 1
@@ -266,7 +260,7 @@ function s:CallZealWithKeyword()
 	endif
 
 endfunction
-function s:CallZealWithKeywordAndDocset()
+function s:ZVKeyDocset()
 	" Give the keyword and the docset manually.
 
 	if s:CheckZeal() == 1
@@ -282,7 +276,7 @@ function s:CallZealWithKeywordAndDocset()
 	endif
 
 endfunction
-function s:CallZealWithSelection()
+function s:ZVVisSelection()
 	" Call Zeal with the current visual selection.
 
 	if s:CheckZeal() == 1
