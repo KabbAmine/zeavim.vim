@@ -38,11 +38,11 @@ They are 3 ways of using zeavim:
 1.	`<leader>z` - To execute Zeal with the current word (Or visual selection in VISUAL mode) as a query and the file type (Sometimes file extension or a manually specified docset) as a docset.
 3.	`<leader>Z` (Note the capital *z*) - To use the file type (Sometimes file extension or a manually specified docset) as a docset and specify the query manually.
 
-	![Zeavim using &lt;leader&gt;Z](.various/img/leader-Z.jpg)
+	![Zeavim using &lt;leader&gt;Z](.img/leaderZ.gif)
 
 4.	`<leader><leader>z` - To specify manually both query and docset.
 
-	![Zeavim using &lt;leader&gt;&lt;leader&gt;z](.various/img/leader-leader-z.jpg)
+	![Zeavim using &lt;leader&gt;&lt;leader&gt;z](.img/leaderLeaderZ.gif)
 
 
 Mapping
@@ -84,6 +84,8 @@ As an example, I'm working on a `scss` file but I want to get `compass` document
 Then Zeavim **only for the current buffer** will use `compass` as a docset.
 
 To revert that and get zeavim working like usually, a simple `Docset` without argument is enough.
+
+![Specify manually a docset](.img/docsetCmd.gif)
 
 Customization
 -------------
