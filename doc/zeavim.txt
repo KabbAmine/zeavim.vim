@@ -1,6 +1,6 @@
 *zeavim.txt*	Execute the documentation browser Zeal from Vim.
 
-    For Vim version 7.0 and above	Last change: 2014-09-28
+    For Vim version 7.0 and above	Last change: 2014-10-03
 
 	ZEAVIM - EXECUTE THE DOCUMENTATION BROWSER ZEAL FROM VIM~
 						from Kabbaj Amine~
@@ -120,8 +120,8 @@ If you prefer, you can use commands instead of keyboard shortcuts.
 Here are all of them: >
 	Zeavim		" Normal
 	ZvV		" VISUAL mode
-	ZvK		" Type quey
-	ZvKD		" Type docset and quey
+	ZvK		" Type query
+	ZvKD		" Type docset and query
 
 ------------------------------------------------------------------------
 5.2. Specify manually docset

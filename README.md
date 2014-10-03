@@ -55,7 +55,7 @@ You can easily change the mapping keys of zeavim:
     nmap NEW_MAPPING <Plug>ZVKeyword			" <leader>Z
     nmap NEW_MAPPING <Plug>ZVKeyDocset			" <leader><leader>z
 
-Or you can in a global way change the leader key in Vim (`/` by default) by putting in your vimrc:
+Or you can in a global way change the leader key in Vim (`\` by default) by putting in your vimrc:
 
 	let mapleader="NEW_LEADER_KEY"
 
@@ -68,8 +68,8 @@ For those of you who prefer using commands, here they are:
 
 	Zeavim		" Normal
 	ZvV			" VISUAL mode
-	ZvK			" Type quey
-	ZvKD		" Type docset and quey
+	ZvK			" Type query
+	ZvKD		" Type docset and query
 
 ### Specify manually a docset
 
@@ -103,7 +103,7 @@ You can specify Zeal's location manually by adding in your vimrc:
 
 ### Adding file types
 
-Zeavim generates the zeal docset name from the extension (Or the filetype vim option) of the current file, but if you need to add some other file types, you can create in your vimrc a dictionnary with the extension or the vim file type as the key and the value as the docset name:
+Zeavim generates the zeal docset name from the extension (Or the filetype vim option) of the current file, but if you need to add some other file types, you can create in your vimrc a dictionary with the extension or the vim file type as the key and the value as the docset name:
 
 	let g:zv_added_files_type = {
 				\ 'EXTENSION': 'DOCSET_NAME',
