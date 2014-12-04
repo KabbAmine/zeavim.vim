@@ -1,6 +1,6 @@
 *zeavim.txt*	Execute the documentation browser Zeal from Vim.
 
-    For Vim version 7.0 and above	Last change: 2014-10-03
+    For Vim version 7.0 and above	Last change: 2014-12-04
 
 	ZEAVIM - EXECUTE THE DOCUMENTATION BROWSER ZEAL FROM VIM~
 						from Kabbaj Amine~
@@ -28,6 +28,7 @@ License : This file is placed in the public domain.
     6.1. Zeal's location		|zeavim-settings:location|
     6.2. Add file types			|zeavim-settings:new-types|
     6.3. Disable default mappings	|zeavim-settings:no-mapping|
+    6.4. Docset name completion		|zeavim-settings:docset-completion|
 7. NOTES				|zeavim-notes|
 
 ========================================================================
@@ -137,6 +138,8 @@ docset: >
 
 Then Zeavim only for the current buffer will use `compass` as a docset.
 
+The docset name can be completed, for that see part 6.4.
+
 To revert that and get zeavim working like usually, a simple `Docset` without argument is enough.
 
 ========================================================================
@@ -174,11 +177,21 @@ As an example (Those file types are already included into zeavim): >
 	\ }
 <
 ------------------------------------------------------------------------
-6.3. Disable default mappings
+6.3. Disable default mappings~
 *zeavim-settings:no-mapping*
 
 You can disable the default mappings by adding to your vimrc: >
     let g:zv_disable_mapping = 1
+
+------------------------------------------------------------------------
+6.4. Docset name completion~
+*zeavim-settings:docset-completion*
+
+When using the command `Docset`, you can get a docset name completion with `Tab` (Or with `<C-d` depending of your vim options).
+
+If needed, you can add docset names for this completion in the variable `g:zv_lazy_docset_list`.
+There is an example: >
+    let g:zv_lazy_docset_list = [ 'Compass', 'Bootstrap', 'Vagrant', 'Font Awesome' ]
 
 ========================================================================
 7. |NOTES|				*zeavim-notes*
