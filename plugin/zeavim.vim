@@ -1,6 +1,6 @@
 " Global plugin that allows executing Zeal from Vim.
 " Creation	  : 2014-04-14
-" Last Change : 2014-10-15
+" Last Change : 2014-12-04
 " Maintainer  : Kabbaj Amine <amine.kabb@gmail.com>
 " License	  : This file is placed in the public domain.
 
@@ -58,7 +58,7 @@ command! Zeavim call s:Zeavim("<cword>")
 command! ZvK call s:ZVKeyword()
 command! ZvKD call s:ZVKeyDocset()
 command! -range ZvV call s:ZVVisSelection()
-command! -nargs=? Docset :let b:manualDocset = '<args>'
+command! -complete=custom,s:SetDocsetName -nargs=? Docset :let b:manualDocset = '<args>'
 " }
 
 
@@ -95,7 +95,7 @@ command! -nargs=? Docset :let b:manualDocset = '<args>'
 				\ 'mkdn': 'Markdown',
 				\ 'php': 'Php',
 				\ 'py': 'Python',
-				\ 'scss': 'sass',
+				\ 'scss': 'Sass',
 				\ 'sh': 'Bash',
 				\ 'tex': 'Latex',
 				\ }
@@ -153,6 +153,19 @@ function s:GetVisualSelection()
 	let [line2,col2] = getpos("'>")[1:2]
 	call setpos('.', s:cursorPos)
 	return s:selection[col1 - 1: col2 - 1]
+
+endfunction
+function s:SetDocsetName(A, L, P)
+	" Return a list (Strings separated by \n) of docset names for
+	" command completion.
+
+	let s:docsetList = values(s:zeavimDocsetNames)
+	if exists("g:zv_lazy_docset_list")
+		call extend(s:docsetList, g:zv_lazy_docset_list)
+	end
+	" Remove duplicates (http://stackoverflow.com/questions/6630860/remove-duplicates-from-a-list-in-vim)
+	let s:docsetListClean =filter(copy(s:docsetList), 'index(s:docsetList, v:val, v:key+1)==-1')
+	return join(sort(s:docsetListClean), "\n")."\n"
 
 endfunction
 
