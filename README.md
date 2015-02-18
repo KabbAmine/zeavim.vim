@@ -23,11 +23,11 @@ If you're using pathogen, extract the file into `bundle` directory.
 ### Using Vundle
 Just add the following line in the Vundle part of your vimrc
 
-    Plugin 'KabbAmine/zeavim.vim'
+    Bundle 'KabbAmine/zeavim.vim'
 
 Then proceed to the installation of the plugin with the following command:
 
-    :PluginInstall
+    :BundleInstall
 
 
 Usage
