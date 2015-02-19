@@ -1,6 +1,6 @@
 " Global plugin that allows executing Zeal from Vim.
 " Creation	  : 2014-04-14
-" Last Change : 2014-12-04
+" Last Change : 2015-02-19
 " Maintainer  : Kabbaj Amine <amine.kabb@gmail.com>
 " License	  : This file is placed in the public domain.
 
@@ -21,33 +21,34 @@ set cpoptions&vim
 " =====================================================================
 
 " {
+" <Plug> names.
+let s:zeavimPlugs = ['Zeavim', 'ZVKeyword' , 'ZVKeyDocset', 'ZVVisSelection']
+
 if !exists('g:zv_disable_mapping')
 
-	if !hasmapto('<Plug>Zeavim')
-		nmap <unique> <Leader>z  <Plug>Zeavim
-	endif
-	nnoremap <unique> <script> <Plug>Zeavim <SID>Zeavim
-	nnoremap <silent> <SID>Zeavim  :call <SID>Zeavim("<cword>")<CR>
+	" Default mappings.
+	let s:zeavimKeys  = ['<Leader>z' , '<Leader>Z' , '<Leader><Leader>z' , '<Leader>z']
 
-	if !hasmapto('<Plug>ZVKeyCall')
-		nmap  <unique> <Leader>Z  <Plug>ZVKeyword
-	endif
-	nnoremap <unique> <script> <Plug>ZVKeyword <SID>ZVKeyword
-	nnoremap <silent> <SID>ZVKeyword  :call <SID>ZVKeyword()<CR>
-
-	if !hasmapto('<Plug>ZVKeyDoc')
-		nmap <unique> <Leader><leader>z  <Plug>ZVKeyDocset
-	endif
-	nnoremap <unique> <script> <Plug>ZVKeyDocset <SID>ZVKeyDocset
-	nnoremap <silent> <SID>ZVKeyDocset  :call <SID>ZVKeyDocset()<CR>
-
-	if !hasmapto('<Plug>ZVVisSelection')
-		vmap <unique> <Leader>z  <Plug>ZVVisSelection
-	endif
-	vnoremap <unique> <script> <Plug>ZVVisSelection <SID>ZVVisSelection
-	vnoremap <silent> <SID>ZVVisSelection  :call <SID>ZVVisSelection()<CR>
+	for s:n in range(0, len(s:zeavimPlugs) - 1)
+		if !hasmapto(s:zeavimPlugs[s:n])
+			exec "nmap <unique> ".s:zeavimKeys[s:n]." <Plug>".s:zeavimPlugs[s:n]
+		endif
+	endfor
 
 endif
+
+" Map the <Plug>s with the appropriate <SID>s.
+if hasmapto('<Plug>Zeavim')
+	nnoremap <unique> <script> <Plug>Zeavim <SID>Zeavim
+	nnoremap <silent> <SID>Zeavim  :call <SID>Zeavim("<cword>")<CR>
+endif
+for s:p in s:zeavimPlugs[1:]
+	let s:plug = "<Plug>".s:p
+	if hasmapto(s:plug)
+		exec "nnoremap <unique> <script> <Plug>".s:p." <SID>".s:p
+		exec "nnoremap <silent> <SID>".s:p." :call <SID>".s:p."()<CR>"
+	endif
+endfor
 " }
 
 
