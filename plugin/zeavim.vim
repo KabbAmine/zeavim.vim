@@ -1,6 +1,6 @@
 " Global plugin that allows executing Zeal from Vim.
 " Creation	  : 2014-04-14
-" Last Change : 2015-02-19
+" Last Change : 2015-02-21
 " Maintainer  : Kabbaj Amine <amine.kabb@gmail.com>
 " License	  : This file is placed in the public domain.
 
@@ -22,18 +22,19 @@ set cpoptions&vim
 
 " {
 " <Plug> names.
-let s:zeavimPlugs = ['Zeavim', 'ZVKeyword' , 'ZVKeyDocset', 'ZVVisSelection']
+let s:zeavimPlugs = ['Zeavim', 'ZVKeyword' , 'ZVKeyDocset']
 
 if !exists('g:zv_disable_mapping')
 
 	" Default mappings.
-	let s:zeavimKeys  = ['<Leader>z' , '<Leader>Z' , '<Leader><Leader>z' , '<Leader>z']
+	let s:zeavimKeys  = ['<Leader>z' , '<Leader>Z' , '<Leader><Leader>z']
 
 	for s:n in range(0, len(s:zeavimPlugs) - 1)
 		if !hasmapto(s:zeavimPlugs[s:n])
 			exec "nmap <unique> ".s:zeavimKeys[s:n]." <Plug>".s:zeavimPlugs[s:n]
 		endif
 	endfor
+	exec "vmap <unique> ".s:zeavimKeys[0]." <Plug>ZVVisSelection"
 
 endif
 
@@ -49,6 +50,10 @@ for s:p in s:zeavimPlugs[1:]
 		exec "nnoremap <silent> <SID>".s:p." :call <SID>".s:p."()<CR>"
 	endif
 endfor
+if hasmapto('<Plug>ZVVisSelection')
+	vnoremap <unique> <script> <Plug>ZVVisSelection <SID>ZVVisSelection
+	vnoremap <silent> <SID>ZVVisSelection  :call <SID>ZVVisSelection()<CR>
+endif
 " }
 
 
