@@ -1,8 +1,9 @@
 " Global plugin that allows executing Zeal from Vim.
-" Creation	  : 2014-04-14
+" Version     : 1.3
+" Creation    : 2014-04-14
 " Last Change : 2015-02-21
 " Maintainer  : Kabbaj Amine <amine.kabb@gmail.com>
-" License	  : This file is placed in the public domain.
+" License     : This file is placed in the public domain.
 
 
 if exists("g:zeavim_loaded")
