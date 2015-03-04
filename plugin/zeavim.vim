@@ -284,6 +284,8 @@ function s:ZVKeyDocset()
 
 	if s:CheckZeal() == 1
 		let s:docsetName = input("Docset: ", "", "custom,CompleteDocsetName")
+		redraw!
+		call s:ShowMessage(4, "Zeal (".s:docsetName.")")
 		let s:keywordInput = input("Search for: ")
 
 		if (s:docsetName == '') && (s:keywordInput == '')
