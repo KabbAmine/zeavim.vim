@@ -106,11 +106,9 @@ command! -complete=custom,CompleteDocsetName -nargs=? Docset :let b:manualDocset
 				\ 'sh': 'Bash',
 				\ 'tex': 'Latex',
 				\ }
-" Add the external docset names from a global variable
+" Add external docset names from a global variable
 	if exists("g:zv_added_files_type")
-		call extend(s:zeavimDocsetNames, g:zv_added_files_type, "error")
-	else
-		let g:zv_added_files_type = {}
+		call extend(s:zeavimDocsetNames, g:zv_added_files_type, "force")
 	endif
 " }
 
@@ -183,8 +181,6 @@ function s:CheckZeal()
 
 	if !executable(g:zv_zeal_directory)
 		call s:ShowMessage(4, "Zeal is not present in your system or his location is not defined")
-		" sleep 1
-		" execute "normal \<C-l>"
 		return 0
 	else
 		return 1
