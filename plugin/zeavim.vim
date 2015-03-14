@@ -1,7 +1,7 @@
 " Global plugin that allows executing Zeal from Vim.
 " Version     : 1.3
 " Creation    : 2014-04-14
-" Last Change : 2015-03-04
+" Last Change : 2015-03-14
 " Maintainer  : Kabbaj Amine <amine.kabb@gmail.com>
 " License     : This file is placed in the public domain.
 
@@ -164,9 +164,12 @@ function CompleteDocsetName(A, L, P)
 	" Return a list (Strings separated by \n) of docset names.
 
 	let s:docsetList = values(s:zeavimDocsetNames)
+	if exists("g:zv_docsets_dir")
+		call extend(s:docsetList, s:GetDocsetNameFromDir(g:zv_docsets_dir), "force")
+	endif
 	if exists("g:zv_lazy_docset_list")
 		call extend(s:docsetList, g:zv_lazy_docset_list)
-	end
+	endif
 	" Remove duplicates (http://stackoverflow.com/questions/6630860/remove-duplicates-from-a-list-in-vim)
 	let s:docsetListClean = filter(copy(s:docsetList), 'index(s:docsetList, v:val, v:key+1)==-1')
 	return join(sort(s:docsetListClean), "\n")."\n"
@@ -201,6 +204,18 @@ function s:GetDocsetNameFromTheList(fileExtension, fileType)
 		call s:ShowMessage(2, "The file type is not recognized")
 	endif
 	return s:docsetName
+
+endfunction
+function s:GetDocsetNameFromDir(directory)
+	" Get docset names from zeal docset directory.
+
+	let l:docsetList = glob(a:directory . '*.docset', 0, 1)
+	for l:index in range(0, len(l:docsetList) - 1)
+		let l:docsetList[l:index] = substitute(l:docsetList[l:index], '^.*\(/\|\\\)\([A-Za-z0-9_]\+\)\.docset$', '\2', 'g')
+		let l:docsetList[l:index] = substitute(l:docsetList[l:index], '_', ' ', 'g')
+		let l:docsetList[l:index] = s:Make1stLetterUpperCase(l:docsetList[l:index])
+	endfor
+	return l:docsetList
 
 endfunction
 function s:GetDocsetName()
