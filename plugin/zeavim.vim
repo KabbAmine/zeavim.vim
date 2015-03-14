@@ -235,9 +235,9 @@ function s:ExecuteZeal(docsetName, selection) " {{{1
 	" Execute Zeal with the docset and selection passed in the arguments.
 
 	if (a:docsetName != "")
-		let s:executeZeal = "silent :".s:zealExecCmd." --query '".a:docsetName.":".a:selection."'"
+		let s:executeZeal = "silent :".s:zealExecCmd." --query \"".a:docsetName.":".a:selection."\""
 	elseif (a:selection != "")
-		let s:executeZeal = "silent :".s:zealExecCmd." --query '".a:selection."'"
+		let s:executeZeal = "silent :".s:zealExecCmd." --query \"".a:selection."\""
 	else
 		let s:executeZeal = "silent :".s:zealExecCmd.""
 	endif
