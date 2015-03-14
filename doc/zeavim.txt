@@ -1,6 +1,6 @@
 *zeavim.txt*	Execute the documentation browser Zeal from Vim.
 
-    For Vim version 7.0 and above	Last change: 2014-12-04
+    For Vim version 7.0 and above	Last change: 2015-03-15
 
 	ZEAVIM - EXECUTE THE DOCUMENTATION BROWSER ZEAL FROM VIM~
 						from Kabbaj Amine~
@@ -15,8 +15,7 @@ License : This file is placed in the public domain.
 1. DESCRIPTION				|zeavim-description|
 2. INSTALLATION				|zeavim-installation|
     2.1. Manual				|zeavim-installation:manual|
-    2.2. With Pathogen			|zeavim-installation:pathogen|
-    2.3. With Vundle			|zeavim-installation:vundle|
+    2.2. With a plugin manager		|zeavim-installation:plugin-manager|
 3. USAGE				|zeavim-usage|
 4. MAPPING				|zeavim-mapping|
     4.1. Default mapping.		|zeavim-mapping:default|
@@ -50,31 +49,25 @@ To use zeavim, you need of course to have Zeal installed. Grab it from here(http
 Install the distributed files into Vim runtime directory which is usually `~/.vim/`, or `$HOME/vimfiles` on Windows.
 
 ------------------------------------------------------------------------
-2.2. Using Pathogen~
-*zeavim-installation:pathogen*
+2.2. Using a plugin manager~
+*zeavim-installation:plugin-manager*
 
-If you're using pathogen, extract the file into `bundle` directory.
-
-------------------------------------------------------------------------
-2.3. Using Vundle~
-*zeavim-installation:vundle*
-
-Just add the following line in the Vundle part of your vimrc >
-    Plugin 'KabbAmine/zeavim.vim'
-Then proceed to the installation of the plugin with the following command: >
-    :PluginInstall
+The used keyword depends of your vim plugin manager: >
+    Plug 'KabbAmine/zeavim.vim'
 <
 ========================================================================
 3. |USAGE|				*zeavim-usage*
 
 1.  `<leader>z`
-    To execute Zeal with the current word (Or visual selection in VISUAL mode) as a query and the file type (Sometimes file extension or a manually specified docset) as a docset.
+    Execute Zeal with the current word (Or visual selection in VISUAL mode) as a query and the file type as a docset*.
 
 3.  `<leader>Z` (Note the capital z)
-    To use the file type (Sometimes file extension or a manually specified docset) as a docset and specify the query manually.
+    To specify a query in the current docset*.
 
 4.  `<leader><leader>z`
-    To specify manually both query and docset.
+    To specify manually both query and docset (The docset name can be completed using `tab`, see part 6.4 for that.
+
+* If the file type is not defined, zeavim use file extension or the docset name specified by the command `Docset`.
 
 ========================================================================
 4. |MAPPING|				*zeavim-mapping*
@@ -187,9 +180,18 @@ You can disable the default mappings by adding to your vimrc: >
 6.4. Docset name completion~
 *zeavim-settings:docset-completion*
 
-When using the command `Docset`, you can get a docset name completion with `Tab` (Or with `<C-d` depending of your vim options).
+When using `<leader><leader>z` or the command `Docset`, you can get a docset name completion with `Tab` (Or with `<C-d>` depending of your vim options).
 
-If needed, you can add docset names for this completion in the variable `g:zv_lazy_docset_list`.
+There are 2 ways to enable that:
+
+1. The docset names can be taken from your zeal's docset directory (The one specified in Zeal's options), just set the correct path in `g:zv_docsets_dir` in your vimrc: >
+    if has('win32') || has('win64')
+	let g:zv_docsets_dir = 'path\\to\\docsets\\directory\\'
+    else
+	let g:zv_docsets_dir = 'path/to/docsets/directory'
+    endif
+
+2. If you want to enable completion just for a few docsets (Why not!), instead of `g:zv_docsets_dir` you can use `g:zv_lazy_docset_list`.
 There is an example: >
     let g:zv_lazy_docset_list = [ 'Compass', 'Bootstrap', 'Vagrant', 'Font Awesome' ]
 
