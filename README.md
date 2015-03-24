@@ -138,24 +138,24 @@ You can disable the default mappings by adding to your vimrc:
 
 When using `<leader><leader>z` or the command `Docset`, you can get a docset name completion with `Tab` (Or with `<C-d>` depending of your vim options).
 
-2 ways to enable that:
+There are 2 ways to enable that:
 
 1. The docset names can be taken from your zeal's docset directory (The one specified in Zeal's options), just set the correct path in `g:zv_docsets_dir` in your vimrc:
-```
-if has('win32') || has('win64')
-	let g:zv_docsets_dir = 'path\\to\\docsets\\directory\\'
-else
-	let g:zv_docsets_dir = 'path/to/docsets/directory'
-endif
-```
+
+	```
+	if has('win32') || has('win64')
+		let g:zv_docsets_dir = 'path\\to\\docsets\\directory\\'
+	else
+		let g:zv_docsets_dir = 'path/to/docsets/directory'
+	endif
+	```
 
 2. If you want to enable completion just for a few docsets (Why not!), instead of `g:zv_docsets_dir` you can use `g:zv_lazy_docset_list`.
 
 	There is an example:
-```
-let g:zv_lazy_docset_list = [ 'Compass', 'Bootstrap', 'Vagrant', 'Font Awesome' ]
-```
-
+	```
+	let g:zv_lazy_docset_list = [ 'Compass', 'Bootstrap', 'Vagrant', 'Font Awesome' ]
+	```
 
 Notes <a id="notes"></a>
 -----
