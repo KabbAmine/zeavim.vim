@@ -1,7 +1,7 @@
 " Global plugin that allows executing Zeal from Vim.
-" Version     : 1.4
+" Version     : 1.4.2
 " Creation    : 2014-04-14
-" Last Change : 2015-03-14
+" Last Change : 2015-04-17
 " Maintainer  : Kabbaj Amine <amine.kabb@gmail.com>
 " License     : This file is placed in the public domain.
 
@@ -82,23 +82,23 @@ command! -complete=custom,CompleteDocsetName -nargs=? Docset :let b:manualDocset
 		endif
 	endif
 " Set Zeal's execution command {{{1
-	if has('win32') || has('win64')
-		let s:zealExecCmd = "!start \"".g:zv_zeal_directory."\""
+	if has('win32')
+		let s:zealExecCmd = '!start "' . g:zv_zeal_directory . '" '
 	else
-		let s:zealExecCmd = "! ".g:zv_zeal_directory.""
+		let s:zealExecCmd = '! ' . g:zv_zeal_directory . ' '
 	endif
 " A dictionary who contains the docset names of some file extensions {{{1
 	let s:zeavimDocsetNames = {
-				\ 'cpp': 'C++',
-				\ 'js': 'Javascript',
-				\ 'md': 'Markdown',
-				\ 'mdown': 'Markdown',
-				\ 'mkd': 'Markdown',
-				\ 'mkdn': 'Markdown',
-				\ 'py': 'Python',
-				\ 'scss': 'Sass',
-				\ 'sh': 'Bash',
-				\ 'tex': 'Latex',
+				\ 'cpp': 'c++',
+				\ 'js': 'javascript',
+				\ 'md': 'markdown',
+				\ 'mdown': 'markdown',
+				\ 'mkd': 'markdown',
+				\ 'mkdn': 'markdown',
+				\ 'py': 'python',
+				\ 'scss': 'sass',
+				\ 'sh': 'bash',
+				\ 'tex': 'latex',
 				\ }
 " Add external docset names from a global variable {{{1
 	if exists("g:zv_added_files_type")
@@ -131,15 +131,6 @@ function s:ShowMessage(messageTypeNumber, messageContent) " {{{1
 	execute "echohl ".s:messageType
 	echo a:messageContent
 	echohl None
-
-endfunction
-function s:Make1stLetterUpperCase(string) " {{{1
-	" Make the 1st letter of a string in uppercase.
-
-	if !empty(a:string)
-		let s:stringUpper = toupper(strpart(a:string, 0, 1)).tolower(strpart(a:string, 1))
-		return s:stringUpper
-	endif
 
 endfunction
 function s:GetVisualSelection() " {{{1
@@ -207,7 +198,7 @@ function s:GetDocsetNameFromDir(directory) " {{{1
 	for l:index in range(0, len(l:docsetList) - 1)
 		let l:docsetList[l:index] = substitute(l:docsetList[l:index], '^.*\(/\|\\\)\([A-Za-z0-9_]\+\)\.docset$', '\2', 'g')
 		let l:docsetList[l:index] = substitute(l:docsetList[l:index], '_', ' ', 'g')
-		let l:docsetList[l:index] = s:Make1stLetterUpperCase(l:docsetList[l:index])
+		let l:docsetList[l:index] = tolower(l:docsetList[l:index])
 	endfor
 	return l:docsetList
 
@@ -227,25 +218,20 @@ function s:GetDocsetName() " {{{1
 		let s:docsetName = ""
 	endif
 
-	let s:docsetName = s:Make1stLetterUpperCase(s:docsetName)
+	let s:docsetName = tolower(s:docsetName)
 	return s:docsetName
 
 endfunction
 function s:ExecuteZeal(docsetName, selection) " {{{1
 	" Execute Zeal with the docset and selection passed in the arguments.
 
-	if (a:docsetName != "")
-		let s:executeZeal = "silent :".s:zealExecCmd." --query \"".a:docsetName.":".a:selection."\""
-	elseif (a:selection != "")
-		let s:executeZeal = "silent :".s:zealExecCmd." --query \"".a:selection."\""
+	let l:docsetName = a:docsetName != '' ? a:docsetName . ':' : ''
+	let l:selection = a:selection != '' ? a:selection : ''
+	let s:executeZeal = 'silent :' . s:zealExecCmd . '"' . l:docsetName . l:selection . '"'
+	if has ('win32')
+		execute s:executeZeal . ' > NUL'
 	else
-		let s:executeZeal = "silent :".s:zealExecCmd.""
-	endif
-
-	if has ('win32') || has('win64')
-		execute s:executeZeal. " > NUL"
-	else
-		execute s:executeZeal." 2> /dev/null &"
+		execute s:executeZeal . ' 2> /dev/null &'
 	endif
 	redraw!
 
