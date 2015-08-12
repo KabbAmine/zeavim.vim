@@ -142,12 +142,12 @@ To revert that and get zeavim working like usually, a simple `Docset` without ar
 6.1. Zeal's location~
 *zeavim-settings:location*
 
-By default zeavim assume that `zeal` is located in `%ProgramFiles/Zeal/zeal.exe` for Windows and `/usr/bin/zeal` for UNIX systems.
+By default zeavim looks for an executable named `zeal` on your system.  If that fails, zeavim assumes that `zeal` is located in `%ProgramFiles%/Zeal/zeal.exe` for Windows and `/usr/bin/zeal` for UNIX systems.
 You can specify Zeal's location manually by adding in your vimrc: >
     if has('win32') || has('win64')
-	    let g:zv_zeal_directory = " path\\to\\zeal.exe\""
+	    let g:zv_zeal_executable = "path\\to\\zeal.exe"
     else
-	    let g:zv_zeal_directory = "/usr/bin/zeal"
+	    let g:zv_zeal_executable = "/usr/bin/zeal"
     endif
 
 ------------------------------------------------------------------------
@@ -184,7 +184,7 @@ When using `<leader><leader>z` or the command `Docset`, you can get a docset nam
 
 There are 2 ways to enable that:
 
-1. The docset names can be taken from your zeal's docset directory (The one specified in Zeal's options), just set the correct path in `g:zv_docsets_dir` in your vimrc: >
+1. The docset names can be taken from your zeal's docset directory (The one specified in Zeal's options), just set the correct path in `g:zv_docsets_dir` in your vimrc (by default zeavim assumes that Zeal docsets are located in `%LOCALAPPDATA%\Local\Zeal\Zeal\docsets`, which expands into something like `C:\Users\you\AppData\Local\Zeal\Zeal\docsets`, for Windows and `~/.local/share/Zeal/Zeal/docsets` for UNIX systems): >
     if has('win32') || has('win64')
 	let g:zv_docsets_dir = 'path\\to\\docsets\\directory\\'
     else

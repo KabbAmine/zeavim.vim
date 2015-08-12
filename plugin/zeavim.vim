@@ -73,20 +73,28 @@ command! -complete=custom,CompleteDocsetName -nargs=? Docset :let b:manualDocset
 " VARIABLES
 " =====================================================================
 
-" Set Zeal's Location {{{1
-	if !exists('g:zv_zeal_directory')
-		if has('win32') || has('win64')
-			let g:zv_zeal_directory = $ProgramFiles."/Zeal/zeal.exe"
-		else
-			let g:zv_zeal_directory = "/usr/bin/zeal"
+" Set Zeal's Executable Location {{{1
+	if !exists('g:zv_zeal_executable')
+		if executable('zeal')
+			let g:zv_zeal_executable = 'zeal'
+		elseif has('unix')
+			let g:zv_zeal_executable = '/usr/bin/zeal'
+		elseif has('win32') || has('win64')
+			let g:zv_zeal_executable = $ProgramFiles."/Zeal/zeal.exe"
 		endif
 	endif
-" Set Zeal's execution command {{{1
-	if has('win32')
-		let s:zealExecCmd = '!start "' . g:zv_zeal_directory . '" '
-	else
-		let s:zealExecCmd = '! ' . g:zv_zeal_directory . ' '
+" }}}
+
+" Set Zeal's Docset Directory Location {{{1
+	if !exists('g:zv_docsets_dir')
+		if has('unix')
+			let g:zv_docsets_dir = expand('~/.local/share/Zeal/Zeal/docsets')
+		elseif has('win32') || has('win64')
+			let g:zv_docsets_dir = $LOCALAPPDATA . '/Zeal/Zeal/docsets'
+		endif
 	endif
+" }}}
+
 " A dictionary who contains the docset names of some file extensions {{{1
 	let s:zeavimDocsetNames = {
 				\ 'cpp': 'c++',
@@ -165,9 +173,9 @@ endfunction
 " ************************
 function s:CheckZeal() " {{{1
 	" Check if the Zeal's executable is present according to the global
-	" variable zv_zeal_directory and return 0 if not
+	" variable zv_zeal_executable and return 0 if not
 
-	if !executable(g:zv_zeal_directory)
+	if !executable(g:zv_zeal_executable)
 		call s:ShowMessage(4, "Zeal is not present in your system or his location is not defined")
 		return 0
 	else
@@ -194,13 +202,8 @@ endfunction
 function s:GetDocsetNameFromDir(directory) " {{{1
 	" Get docset names from zeal docset directory.
 
-	let l:docsetList = glob(a:directory . '*.docset', 0, 1)
-	for l:index in range(0, len(l:docsetList) - 1)
-		let l:docsetList[l:index] = substitute(l:docsetList[l:index], '^.*\(/\|\\\)\([A-Za-z0-9_]\+\)\.docset$', '\2', 'g')
-		let l:docsetList[l:index] = substitute(l:docsetList[l:index], '_', ' ', 'g')
-		let l:docsetList[l:index] = tolower(l:docsetList[l:index])
-	endfor
-	return l:docsetList
+	return map(glob(a:directory . '/*.docset', 0, 1),
+		\ 'tolower(tr(fnamemodify(v:val, ":t:r"), "_", " "))')
 
 endfunction
 function s:GetDocsetName() " {{{1
@@ -227,13 +230,13 @@ function s:ExecuteZeal(docsetName, selection) " {{{1
 
 	let l:docsetName = a:docsetName != '' ? a:docsetName . ':' : ''
 	let l:selection = a:selection != '' ? a:selection : ''
-	let s:executeZeal = 'silent :' . s:zealExecCmd . '"' . l:docsetName . l:selection . '"'
-	if has ('win32')
-		execute s:executeZeal . ' > NUL'
-	else
-		execute s:executeZeal . ' 2> /dev/null &'
+	let l:command = g:zv_zeal_executable . ' ' . shellescape(l:docsetName . l:selection)
+	if has('unix')
+		let l:command = l:command . ' &'
+	elseif has('win32') || has('win64')
+		let l:command = 'start /B ' . l:command . ' > NUL'
 	endif
-	redraw!
+	silent call system(l:command)
 
 endfunction
 " }}}
