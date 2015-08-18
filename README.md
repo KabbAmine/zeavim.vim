@@ -27,7 +27,7 @@ And this is the best way, use a vim plugin manager:
 | Plugin manager                                         | In vimrc                         | Installation command |
 |--------------------------------------------------------|----------------------------------|----------------------|
 | [Vim-plug](https://github.com/junegunn/vim-plug)       | `Plug 'KabbAmine/zeavim.vim'`      | `PlugInstall`          |
-| [Vundle](https://github.com/gmarik/Vundle.vim)         | `Plugin 'KabbAmine/zeavim.vim'`    | `PluginInstall`        |
+| [Vundle](https://github.com/gmarik/Vundle.vim)         | `Bundle 'KabbAmine/zeavim.vim'`    | `BundleInstall!`        |
 | [NeoBundle](https://github.com/Shougo/neobundle.vim)   | `NeoBundle 'KabbAmine/zeavim.vim'` | `NeoBundleInstall`     |
 
 
