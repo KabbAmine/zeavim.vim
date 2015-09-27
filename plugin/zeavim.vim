@@ -1,5 +1,4 @@
 " Global plugin that allows executing Zeal from Vim.
-" Version     : 1.4.2
 " Creation    : 2014-04-14
 " Last Change : 2015-09-27
 " Maintainer  : Kabbaj Amine <amine.kabb@gmail.com>
@@ -109,8 +108,8 @@ command! -complete=custom,CompleteDocsetName -nargs=? Docset :let b:manualDocset
 				\ 'tex': 'latex',
 				\ }
 " Add external docset names from a global variable {{{1
-	if exists("g:zv_added_files_type")
-		call extend(s:zeavimDocsetNames, g:zv_added_files_type)
+	if exists("g:zv_file_types")
+		call extend(s:zeavimDocsetNames, g:zv_file_types)
 	endif
 " }}}
 
