@@ -1,7 +1,7 @@
 " Global plugin that allows executing Zeal from Vim.
 " Version     : 1.4.2
 " Creation    : 2014-04-14
-" Last Change : 2015-04-17
+" Last Change : 2015-09-27
 " Maintainer  : Kabbaj Amine <amine.kabb@gmail.com>
 " License     : This file is placed in the public domain.
 
@@ -230,13 +230,11 @@ function s:ExecuteZeal(docsetName, selection) " {{{1
 
 	let l:docsetName = a:docsetName != '' ? a:docsetName . ':' : ''
 	let l:selection = a:selection != '' ? a:selection : ''
-	let l:command = g:zv_zeal_executable . ' ' . shellescape(l:docsetName . l:selection)
-	if has('unix')
-		let l:command = l:command . ' &'
-	elseif has('win32') || has('win64')
-		let l:command = 'start /B ' . l:command . ' > NUL'
-	endif
-	silent call system(l:command)
+	let l:preCmd = has('unix') ? '! ' : '!start '
+	let l:postCmd = has('unix') ? ' 2> /dev/null &' : ''
+	let l:cmd = l:preCmd . g:zv_zeal_executable . ' ' . shellescape(l:docsetName . l:selection) . l:postCmd
+	silent execute l:cmd
+	redraw!
 
 endfunction
 " }}}
