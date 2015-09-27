@@ -34,20 +34,16 @@ And this is the best way, use a vim plugin manager:
 Usage <a id="usage"></a>
 -----
 
-They are 3 ways of using zeavim:
+There are 3 ways of using zeavim:
 
-1.  `<leader>z` - Execute Zeal with the current word (Or visual selection in VISUAL mode) as a query and the file type as a docset **\***.
-3.  `<leader>Z` (Note the capital *z*) - To specify a query in the current docset **\***.
-
+1. `<leader>z` - Execute Zeal with the current word (Or visual selection in VISUAL mode) as a query and the file type as a docset <sup>+</sup>.
+2. `<leader>Z` _(Note the capital z)_ - To specify a query in the current docset <sup>+</sup>.
   ![Zeavim using &lt;leader&gt;Z](.img/leaderZ.gif)
-
-4.  `<leader><leader>z` - To specify manually both query and docset (The docset name can be completed using `tab`, see [completion](#completion) for that.
+3. `<leader><leader>z` - To specify manually both query and docset (The docset name can be completed using `tab`, see [completion](#completion) for that.
 ).
-
   ![Zeavim using &lt;leader&gt;&lt;leader&gt;z](.img/leaderLeaderZ.gif)
 
-
-**\*** If the file type is not defined, the plugin use file extension or the docset name specified by the command `Docset`.
+<sup>+</sup> If the file type is not defined, the plugin use file extension or the docset name specified by the command `Docset`.
 
 
 Mapping <a id="mapping"></a>
@@ -55,10 +51,10 @@ Mapping <a id="mapping"></a>
 
 You can easily change the mapping keys of zeavim:
 
-    nmap NEW_MAPPING <Plug>Zeavim			" <leader>z (NORMAL mode)
-    vmap NEW_MAPPING <Plug>ZVVisSelection	" <leader>z (VISUAL mode)
-    nmap NEW_MAPPING <Plug>ZVKeyword		" <leader>Z
-    nmap NEW_MAPPING <Plug>ZVKeyDocset		" <leader><leader>z
+    nmap NEW_MAPPING <Plug>Zeavim         " <leader>z (NORMAL mode)
+    vmap NEW_MAPPING <Plug>ZVVisSelection " <leader>z (VISUAL mode)
+    nmap NEW_MAPPING <Plug>ZVKeyword      " <leader>Z
+    nmap NEW_MAPPING <Plug>ZVKeyDocset    " <leader><leader>z
 
 If you don't want to use all those functionalities, you can [disable the default mapping](#disableMappings) and map only what you want.
 
@@ -110,22 +106,19 @@ You can specify Zeal's location manually by adding in your vimrc:
 
 ### Add file types
 
-Zeavim generates the zeal docset name from the extension (Or the filetype vim option) of the current file, but if you need to add some other file types, you can create in your vimrc a dictionary with the extension or the vim file type as the key and the value as the docset name:
+Zeavim generates the zeal docset name from the extension (Or the `filetype` vim option) of the current file, but if you need to add some other file types or overwrite the ones by default, you can create in your vimrc a dictionary with the extension or the vim file type as the key and the value as the docset name:
 
-    let g:zv_added_files_type = {
-        \ 'EXTENSION': 'DOCSET_NAME',
-        \ 'FILE_TYPE': 'DOCSET_NAME',
+    let g:zv_file_types = {
+        \ 'EXTENSION' : 'DOCSET_NAME',
+        \ 'FILE_TYPE' : 'DOCSET_NAME',
         \ }
 
-As an example (Those file types are already included into zeavim):
+Example:
 
-    let g:zv_added_files_type = {
-        \ 'cpp': 'C++',
-        \ 'js': 'Javascript',
-        \ 'md': 'Markdown',
-        \ 'mdown': 'Markdown',
-        \ 'mkd': 'Markdown',
-        \ 'scss': 'Sass',
+    let g:zv_file_types = {
+        \ 'ruby'   : 'ruby 2',
+        \ 'scss'   : 'compass',
+        \ 'python' : 'python 3'
         \ }
 
 ### Disable default mappings <a id="disableMappings"></a>
@@ -156,6 +149,20 @@ There are 2 ways to enable that:
 	```
 	let g:zv_lazy_docset_list = [ 'Compass', 'Bootstrap', 'Vagrant', 'Font Awesome' ]
 	```
+
+My configuration
+----------------
+
+```
+let g:zv_disable_mapping = 1
+nmap gz <Plug>Zeavim
+vmap gz <Plug>ZVVisSelection
+nmap gZ <Plug>ZVKeyDocset
+let g:zv_file_types = {'python' : 'python 3'}
+let g:zv_docsets_dir = has('unix') ?
+			\ '~/Important!/docsets_Zeal/' :
+			\ 'Z:/myUser/Important!/docsets_Zeal/'
+```
 
 Notes <a id="notes"></a>
 -----
