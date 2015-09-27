@@ -80,7 +80,7 @@ command! -complete=custom,CompleteDocsetName -nargs=? Docset :let b:manualDocset
 		elseif has('unix')
 			let g:zv_zeal_executable = '/usr/bin/zeal'
 		elseif has('win32') || has('win64')
-			let g:zv_zeal_executable = $ProgramFiles."/Zeal/zeal.exe"
+			let g:zv_zeal_executable = $ProgramFiles . '\Zeal\zeal.exe'
 		endif
 	endif
 " }}}
@@ -90,7 +90,7 @@ command! -complete=custom,CompleteDocsetName -nargs=? Docset :let b:manualDocset
 		if has('unix')
 			let g:zv_docsets_dir = expand('~/.local/share/Zeal/Zeal/docsets')
 		elseif has('win32') || has('win64')
-			let g:zv_docsets_dir = $LOCALAPPDATA . '/Zeal/Zeal/docsets'
+			let g:zv_docsets_dir = $LOCALAPPDATA . '\Zeal\Zeal\docsets'
 		endif
 	endif
 " }}}
