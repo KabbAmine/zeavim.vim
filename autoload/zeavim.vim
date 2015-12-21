@@ -17,14 +17,22 @@ if !exists('g:zv_docsets_dir')
 endif
 " A dictionary containing the docset names of some file extensions {{{1
 let s:docsetsDic = {
-			\ 'cpp'   : 'c++',
-			\ 'md'    : 'markdown',
-			\ 'mdown' : 'markdown',
-			\ 'mkd'   : 'markdown',
-			\ 'mkdn'  : 'markdown',
-			\ 'scss'  : 'sass',
-			\ 'sh'    : 'bash',
-			\ 'tex'   : 'latex',
+			\ 'cpp'               : 'c++',
+			\ 'md'                : 'markdown',
+			\ 'mdown'             : 'markdown',
+			\ 'mkd'               : 'markdown',
+			\ 'mkdn'              : 'markdown',
+			\ 'scss'              : 'sass',
+			\ 'sh'                : 'bash',
+			\ 'tex'               : 'latex',
+			\ 'gruntfile.coffee'  : 'grunt',
+			\ 'Gruntfile.coffee'  : 'grunt',
+			\ 'gruntfile.js'      : 'grunt',
+			\ 'Gruntfile.js'      : 'grunt',
+			\ 'gulpfile.babel.js' : 'gulp',
+			\ 'gulpfile.coffee'   : 'gulp',
+			\ 'gulpfile.js'       : 'gulp',
+			\ '.htaccess'         : 'apache http server',
 		\ }
 " Add external docset names from a global variable {{{1
 if exists('g:zv_file_types')
@@ -72,11 +80,13 @@ endfunction
 function! zeavim#CompleteDocsets(A, L, P) abort " {{{1
 	return join(sort(s:GetDocsetsList()), "\n") . "\n"
 endfunction
-function! s:GetDocset(ext, ft) abort " {{{1
+function! s:GetDocset(file, ext, ft) abort " {{{1
 	" Get docset name from s:docsetsDic or simply use
 	" the file extension
 
-	if has_key(s:docsetsDic, a:ft)
+	if has_key(s:docsetsDic, a:file)
+		let l:docset = s:docsetsDic[a:file]
+	elseif has_key(s:docsetsDic, a:ft)
 		let l:docset = s:docsetsDic[a:ft]
 	elseif has_key(s:docsetsDic, a:ext)
 		let l:docset = s:docsetsDic[a:ext]
@@ -96,12 +106,13 @@ endfunction
 function! s:SetDocset() abort " {{{1
 	" Return the appropriate docset name.
 
+	let l:file = expand('%:p:t')
 	let l:ext = expand('%:e')
 	let l:ft = &filetype
 	if !empty(getbufvar('%', 'manualDocset'))
 		let l:docset = getbufvar('%', 'manualDocset')
 	elseif !empty(l:ft) || !empty(l:ext)
-		let l:docset = s:GetDocset(l:ext, l:ft)
+		let l:docset = s:GetDocset(l:file, l:ext, l:ft)
 	else
 		call s:Echo(3, 'No file type found')
 		let l:docset = ''
