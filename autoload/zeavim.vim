@@ -1,5 +1,5 @@
 " CREATION     : 2015-12-21
-" MODIFICATION : 2015-12-21
+" MODIFICATION : 2015-12-23
 
 " VARIABLES
 " =====================================================================
@@ -17,18 +17,19 @@ if !exists('g:zv_docsets_dir')
 endif
 " A dictionary containing the docset names of some file extensions {{{1
 let s:docsetsDic = {
-			\ 'cpp'                      : 'c++',
-			\ '^(G|g)runtfile\.'         : 'grunt',
-			\ '^(G|g)ulpfile\.'          : 'gulp',
-			\ '.htaccess'                : 'apache http server',
+			\ 'cpp'                   : 'c++',
+			\ '^(G|g)runtfile\.'      : 'grunt',
+			\ '^(G|g)ulpfile\.'       : 'gulp',
+			\ '.htaccess'             : 'apache_http_server',
 			\ '^(md|mdown|mkd|mkdn)$' : 'markdown',
-			\ 'scss'                     : 'sass',
-			\ 'sh'                       : 'bash',
-			\ 'tex'                      : 'latex',
+			\ 'scss'                  : 'sass',
+			\ 'sh'                    : 'bash',
+			\ 'tex'                   : 'latex',
 		\ }
 " Add external docset names from a global variable {{{1
 if exists('g:zv_file_types')
-	call extend(s:docsetsDic, g:zv_file_types)
+	" Tr spaces to _ to allow multiple docsets
+	call extend(s:docsetsDic, map(g:zv_file_types, 'tr(v:val, " ", "_")'))
 endif
 " }}}
 
@@ -106,10 +107,10 @@ function! s:GetDocset(file, ext, ft) abort " {{{1
 	return l:docset
 endfunction
 function! s:GetDocsetsFromDir() abort " {{{1
-	" Get docset names from zeal docset directory.
+	" Get docset names from zeal's docset directory.
 
 	return map(glob(g:zv_docsets_dir . '/*.docset', 0, 1),
-		\ 'tolower(tr(fnamemodify(v:val, ":t:r"), "_", " "))')
+		\ 'tolower(fnamemodify(v:val, ":t:r"))')
 endfunction
 function! s:SetDocset() abort " {{{1
 	" Return the appropriate docset name.
@@ -119,7 +120,7 @@ function! s:SetDocset() abort " {{{1
 	let l:ft = &filetype
 	if !empty(getbufvar('%', 'manualDocset'))
 		let l:docset = getbufvar('%', 'manualDocset')
-	elseif !empty(l:ft) || !empty(l:ext)
+	elseif !empty(l:file) || !empty(l:ft) || !empty(l:ext)
 		let l:docset = s:GetDocset(l:file, l:ext, l:ft)
 	else
 		call s:Echo(3, 'No file type found')
@@ -140,7 +141,7 @@ endfunction
 function! s:Zeal(docset, selection) abort " {{{1
 	" Execute Zeal with the docset and selection passed in the arguments.
 
-	let l:docset = !empty(a:docset) ? a:docset . ':' : ''
+	let l:docset = !empty(a:docset) ? tr(a:docset, '_', ' ') . ':' : ''
 	let l:selection = !empty(a:selection) ? a:selection : ''
 	let l:focus = has('unix') && executable('wmctrl') && v:windowid !=# 0 ?
 				\ 'wmctrl -ia ' . v:windowid :
@@ -198,6 +199,14 @@ function! zeavim#SearchFor() abort " {{{1
 		else
 			call s:Zeal(l:d, l:input)
 		endif
+	endif
+endfunction
+function! zeavim#DocsetInBuf(...) abort " {{{1
+	if exists('a:000')
+		let l:d = len(a:000) ># 1 ? join(a:000, ',') : join(a:000)
+		call setbufvar('%', 'manualDocset', l:d)
+	else
+		call setbufvar('%', 'manualDocset', '')
 	endif
 endfunction
 " }}}
