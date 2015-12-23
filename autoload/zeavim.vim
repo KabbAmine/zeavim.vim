@@ -17,22 +17,14 @@ if !exists('g:zv_docsets_dir')
 endif
 " A dictionary containing the docset names of some file extensions {{{1
 let s:docsetsDic = {
-			\ 'cpp'               : 'c++',
-			\ 'md'                : 'markdown',
-			\ 'mdown'             : 'markdown',
-			\ 'mkd'               : 'markdown',
-			\ 'mkdn'              : 'markdown',
-			\ 'scss'              : 'sass',
-			\ 'sh'                : 'bash',
-			\ 'tex'               : 'latex',
-			\ 'gruntfile.coffee'  : 'grunt',
-			\ 'Gruntfile.coffee'  : 'grunt',
-			\ 'gruntfile.js'      : 'grunt',
-			\ 'Gruntfile.js'      : 'grunt',
-			\ 'gulpfile.babel.js' : 'gulp',
-			\ 'gulpfile.coffee'   : 'gulp',
-			\ 'gulpfile.js'       : 'gulp',
-			\ '.htaccess'         : 'apache http server',
+			\ 'cpp'                      : 'c++',
+			\ '^(G|g)runtfile\.'         : 'grunt',
+			\ '^(G|g)ulpfile\.'          : 'gulp',
+			\ '.htaccess'                : 'apache http server',
+			\ '^(md|mdown|mkd|mkdn)$' : 'markdown',
+			\ 'scss'                     : 'sass',
+			\ 'sh'                       : 'bash',
+			\ 'tex'                      : 'latex',
 		\ }
 " Add external docset names from a global variable {{{1
 if exists('g:zv_file_types')
@@ -81,18 +73,34 @@ function! zeavim#CompleteDocsets(A, L, P) abort " {{{1
 	return join(sort(s:GetDocsetsList()), "\n") . "\n"
 endfunction
 function! s:GetDocset(file, ext, ft) abort " {{{1
-	" Get docset name from s:docsetsDic or simply use
-	" the file extension
+	" Try to guess docset from:
+	" 1. file name
+	" 2. file extension
+	" 3. file type
 
-	if has_key(s:docsetsDic, a:file)
-		let l:docset = s:docsetsDic[a:file]
-	elseif has_key(s:docsetsDic, a:ft)
-		let l:docset = s:docsetsDic[a:ft]
-	elseif has_key(s:docsetsDic, a:ext)
-		let l:docset = s:docsetsDic[a:ext]
-	elseif !empty(a:ft)
+	for l:k in keys(s:docsetsDic)
+		" If the key starts with \v then we consider it as
+		" a regex, so we add magic!
+		let l:pattern = l:k =~# '\v^\^' ?
+					\ '\v' . l:k : l:k
+		if match(a:file, l:pattern) ==# 0
+			let l:docset = s:docsetsDic[l:k]
+			break
+		elseif match(a:ext, l:pattern) ==# 0
+			let l:docset = s:docsetsDic[l:k]
+			break
+		elseif match(a:ft, l:pattern) ==# 0
+			let l:docset = s:docsetsDic[l:k]
+			break
+		else
+			let l:docset = ''
+		endif
+	endfor
+	if empty(l:docset) && !empty(a:ft)
 		let l:docset = a:ft
-	else
+	endif
+	" If still empty, then...
+	if empty(l:docset)
 		call s:Echo(3, 'The file type is not recognized')
 	endif
 	return l:docset
