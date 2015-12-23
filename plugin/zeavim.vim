@@ -1,4 +1,5 @@
 " Global plugin that allows executing Zeal from Vim.
+" Version     : 2.0.0
 " Creation    : 2014-04-14
 " Last Change : 2015-12-23
 " Maintainer  : Kabbaj Amine <amine.kabb@gmail.com>
