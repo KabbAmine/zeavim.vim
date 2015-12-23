@@ -23,13 +23,13 @@ set cpoptions&vim
 " {{{1
 if !exists('g:zv_disable_mapping')
 	if !hasmapto('<Plug>Zeavim')
-		map <unique> <Leader>z <Plug>Zeavim
+		nmap <unique> <Leader>z <Plug>Zeavim
 	endif
 	if !hasmapto('<Plug>ZVVisSelection')
-		map <unique> <Leader>z <Plug>ZVVisSelection
+		vmap <unique> <Leader>z <Plug>ZVVisSelection
 	endif
 	if !hasmapto('<Plug>ZVKeyDocset')
-		map <unique> <Leader><Leader>z <Plug>ZVKeyDocset
+		nmap <unique> <Leader><Leader>z <Plug>ZVKeyDocset
 	endif
 endif
 nnoremap <unique> <script> <Plug>Zeavim <SID>Zeavim
