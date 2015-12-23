@@ -169,6 +169,7 @@ let g:zv_file_types = {
 			\ '.htaccess'             : 'apache_http_server',
 			\ '^(md|mdown|mkd|mkdn)$' : 'markdown',
 			\ 'css'                   : 'css,foundation,bootstrap_4',
+		\ }
 ```
 
 **N.B:** All the values above are already defined in the plugin, a part the `css` one.
