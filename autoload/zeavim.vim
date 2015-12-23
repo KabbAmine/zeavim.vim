@@ -134,11 +134,15 @@ function! s:Zeal(docset, selection) abort " {{{1
 
 	let l:docset = !empty(a:docset) ? a:docset . ':' : ''
 	let l:selection = !empty(a:selection) ? a:selection : ''
-	let l:cmd = printf('%s%s %s %s',
-				\ (has('unix') ? '!' : '!start '),
+	let l:focus = has('unix') && executable('wmctrl') && v:windowid !=# 0 ?
+				\ 'wmctrl -ia ' . v:windowid :
+				\ ''
+	let l:cmd = printf('!%s%s %s %s && %s &',
+				\ (has('unix') ? '' : 'start '),
 				\ g:zv_zeal_executable,
 				\ shellescape(l:docset . l:selection),
-				\ (has('unix') ? '2> /dev/null &' : '')
+				\ (has('unix') ? '2> /dev/null' : ''),
+				\ l:focus
 			\ )
 	silent execute l:cmd
 	redraw!
