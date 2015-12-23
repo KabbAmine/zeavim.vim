@@ -3,6 +3,14 @@ CHANGELOG
 
 Starting from version `2.0.0` the plugin uses [semantic versionning 2.0.0](http://semver.org/).
 
+2.0.1 <small>(2015-12-23)</small>
+------------------------------
+
+* DEGRADATION: Fix the issue where default mappings were not working
+* Fix code example in the documentation
+
+------------------------------
+
 2.0.0 <small>(2015-12-23)</small>
 ------------------------------
 
