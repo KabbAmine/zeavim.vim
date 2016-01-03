@@ -1,7 +1,7 @@
 " Global plugin that allows executing Zeal from Vim.
 " Version     : 2.0.1
 " Creation    : 2014-04-14
-" Last Change : 2015-12-23
+" Last Change : 2016-01-03
 " Maintainer  : Kabbaj Amine <amine.kabb@gmail.com>
 " License     : This file is placed in the public domain.
 
@@ -47,7 +47,6 @@ command! Zeavim call zeavim#SearchForCurrent()
 command! -range ZvV call zeavim#SearchForCurrent(1)
 command! ZVKeyDocset call zeavim#SearchFor()
 command! -complete=custom,zeavim#CompleteDocsets -nargs=* Docset :call zeavim#DocsetInBuf(<f-args>)
-" command! -complete=custom,zeavim#CompleteDocsets -nargs=* Docset :let b:manualDocset = '<args>'
 " }}}
 
 " Restore default vim options {{{1
