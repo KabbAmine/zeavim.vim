@@ -1,5 +1,5 @@
 " CREATION     : 2015-12-21
-" MODIFICATION : 2015-12-23
+" MODIFICATION : 2016-01-03
 
 " VARIABLES
 " =====================================================================
@@ -144,14 +144,14 @@ function! s:Zeal(docset, selection) abort " {{{1
 	let l:docset = !empty(a:docset) ? tr(a:docset, '_', ' ') . ':' : ''
 	let l:selection = !empty(a:selection) ? a:selection : ''
 	let l:focus = has('unix') && executable('wmctrl') && v:windowid !=# 0 ?
-				\ 'wmctrl -ia ' . v:windowid :
+				\ '&& wmctrl -ia ' . v:windowid . ' ' :
 				\ ''
-	let l:cmd = printf('!%s%s %s %s && %s &',
+	let l:cmd = printf('!%s%s %s %s%s &',
 				\ (has('unix') ? '' : 'start '),
 				\ g:zv_zeal_executable,
 				\ shellescape(l:docset . l:selection),
-				\ (has('unix') ? '2> /dev/null' : ''),
-				\ l:focus
+				\ l:focus,
+				\ (has('unix') ? '2> /dev/null' : '')
 			\ )
 	silent execute l:cmd
 	redraw!
