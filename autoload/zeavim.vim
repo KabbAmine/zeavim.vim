@@ -1,5 +1,5 @@
 " CREATION     : 2015-12-21
-" MODIFICATION : 2016-01-12
+" MODIFICATION : 2016-01-13
 
 " VARIABLES
 " =====================================================================
@@ -197,6 +197,12 @@ function! zeavim#SearchFor() abort " {{{1
 			call s:Zeal(l:d, l:input)
 		endif
 	endif
+endfunction
+function! zeavim#SearchForMotion(...) abort " {{{1
+	" Function to use with `operatorfunc`
+
+	let l:selection = getline('.')[col("'[") - 1 : col("']") - 1]
+	call zeavim#SearchForCurrent(l:selection)
 endfunction
 function! zeavim#DocsetInBuf(...) abort " {{{1
 	if exists('a:000')

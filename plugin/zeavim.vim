@@ -1,7 +1,7 @@
 " Global plugin that allows executing Zeal from Vim.
 " Version     : 2.0.1
 " Creation    : 2014-04-14
-" Last Change : 2016-01-12
+" Last Change : 2016-01-13
 " Maintainer  : Kabbaj Amine <amine.kabb@gmail.com>
 " License     : This file is placed in the public domain.
 
@@ -31,13 +31,23 @@ if !exists('g:zv_disable_mapping')
 	if !hasmapto('<Plug>ZVKeyDocset')
 		nmap <unique> <Leader><Leader>z <Plug>ZVKeyDocset
 	endif
+	if !hasmapto('<Plug>ZVMotion')
+		nmap <unique> gz <Plug>ZVMotion
+	endif
 endif
+
 nnoremap <unique> <script> <Plug>Zeavim <SID>Zeavim
 nnoremap <silent> <SID>Zeavim :call zeavim#SearchForCurrent(expand('<cword>'))<CR>
+
 vnoremap <unique> <script> <Plug>ZVVisSelection <SID>ZVVisSelection
 vnoremap <silent> <SID>ZVVisSelection :call zeavim#SearchForCurrent('', 1)<CR>
+
 nnoremap <unique> <script> <Plug>ZVKeyDocset <SID>ZVKeyDocset
 nnoremap <silent> <SID>ZVKeyDocset :call zeavim#SearchFor()<CR>
+
+nnoremap <unique> <script> <Plug>ZVMotion <SID>ZVMotion
+nnoremap <silent> <SID>ZVMotion
+			\ <Esc>:setlocal operatorfunc=zeavim#SearchForMotion<CR>g@
 " }}}
 
 " COMMANDS
