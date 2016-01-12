@@ -1,6 +1,6 @@
 *zeavim.txt*	Execute the documentation browser Zeal from Vim.
 
-    For Vim version 7.0 and above	Last change: 2015-12-23
+    For Vim version 7.0 and above	Last change: 2016-01-13
 
 	ZEAVIM - EXECUTE THE DOCUMENTATION BROWSER ZEAL FROM VIM~
 						from Kabbaj Amine~
@@ -35,7 +35,7 @@ License : This file is placed in the public domain.
 
 Zeavim allows to use Zeal(http://zealdocs.org) documentation browser directly from Vim(http://vim.org).
 
-- Search word under cursor or a visual selection.
+- Search for word under cursor, a motion or a visual selection.
 - Search without losing focus from Vim.
 - Possibility to specify dynamically a docset.
 - Narrow search with a query.
@@ -67,11 +67,16 @@ The used keyword depends of your vim plugin manager: >
 3. |USAGE|				*zeavim-usage*
 
 1.  `<leader>z`
-    Automatically define the docset and use the current word or visual selection as a query.
+    Search for word under cursor with the docset defined automatically.
 
-2.  `<leader><leader>z`
-    Specify both docset (A default one is provided) and query (The docset name can be completed using `tab`, see part 6.4 for that).
-    Multiple docsets can be defined, just separate them by a comma.
+2.  `gz{motion}`
+    Search for a motion with the docset defined automatically.
+
+3.  `<leader><leader>z`
+    Narrow search with a docset and a query (A default docset is provided).
+	- Multiple docsets can be defined, just separate them by a comma.
+	- The docset name can be completed using `tab`, see part 6.4 for
+	  that.
 
 ========================================================================
 4. |MAPPING|				*zeavim-mapping*
@@ -80,15 +85,18 @@ The used keyword depends of your vim plugin manager: >
 4.1. Default mappings~
 *zeavim-mapping:default*
 
-<Leader>z   or	 <Plug>Zeavim
-	Launch Zeal with the current {word} as a keyword and the appropriate docset.
+`<Leader>z`  or  `<Plug>Zeavim`
+    Search for `<word>` under cursor with the docset defined automatically.
 
-<Leader><leader>Z   or	 <Plug>ZVKeyDocset
-	Specify a docset and keyword then launch Zeal.
+`<Leader>z`  or  `<Plug>ZVVisSelection`
+    Same as <Leader>z but use visual selection instead of `<word>.`
 
-<Leader>z   or	 <Plug>ZVVisSelection
-	Lauch Zeal with the current visual selection as a keyword and the
-	appropriate docset.
+`gz{motion}`  or  `<Plug>ZVMotion`
+    Same as <Leader>z but use motion instead of `<word>.`
+
+`<Leader><leader>Z`  or  `Plug>ZVKeyDocset`
+    Narrow search with a docset (A default one is provided) and a query in
+    input.
 
 ------------------------------------------------------------------------
 4.2. Custom mappings~
@@ -100,7 +108,7 @@ For example: >
   nmap ,z <Plug>Zeavim
 
 Notice that for changing `<leader>z` in visual mode it's preferable to use
-`vmap` >
+`vmap` : >
   vmap ,,z <Plug>ZVVisSelection
 >
 ========================================================================

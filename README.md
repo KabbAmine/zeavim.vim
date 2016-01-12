@@ -1,10 +1,6 @@
 Zeavim, <small>Zeal for Vim</small> [![GitHub version](https://badge.fury.io/gh/kabbamine%2Fzeavim.vim.svg)](https://badge.fury.io/gh/kabbamine%2Fzeavim.vim)
 ===============================================================================================================================================
 
-> Starting from version `2.0.0` the plugin is trying to follow [semantic versionning 2.0.0](http://semver.org/).
-
------------------------------------------------
-
 [Description](#description) | [Installation](#description) | [Usage](#usage) | [Mapping](#mapping) | [Commands](#commands) | [Customization](#customization) | [Notes](#notes)
 
 Description <a id="description"></a>
@@ -16,7 +12,7 @@ Zeavim allows to use the offline documentation browser [Zeal](http://zealdocs.or
 
 ### Features
 
-- Search word under cursor or a visual selection.
+- Search for word under cursor, a motion or a visual selection.
 - Search without losing focus from Vim if Zeal is already opened (Need wmctrl on UNIX).
 - Possibility to specify dynamically a docset.
 - Narrow search with a query.
@@ -26,6 +22,7 @@ Zeavim allows to use the offline documentation browser [Zeal](http://zealdocs.or
 - Supports docsets specific to file names (e.g `gulpfile.js`)
 - Works on GNU/Linux and Windows.
 
+*Starting from version `2.0.0` the plugin is following [semantic versionning 2.0.0](http://semver.org/).*
 
 Installation <a id="installation"></a>
 -------------
@@ -50,19 +47,24 @@ And this is the best way, use a vim plugin manager:
 Usage <a id="usage"></a>
 -----
 
-There are 2 ways of using zeavim:
+There are 3 ways of using zeavim:
 
 1. `<leader>z`
 
-	Automatically define the docset<sup><a href="#plus">+</a></sup> and use the current word or visual selection as a query.
+	Search for word under cursor with the docset defined automatically<sup><a href="#plus">+</a></sup>.
 
-2. `<leader><leader>z`
+2. `gz{motion}`
 
-	Specify both docset<sup><a href="#plus">+</a></sup> (A default one is provided) and query (The docset name can be completed using `tab`, see [completion](#completion) for that)*.
+	Search for a motion with the docset defined automatically<sup><a href="#plus">+</a></sup>.
 
+3. `<leader><leader>z`
+
+	Narrow search with a docset<sup><a href="#plus">+</a></sup> and a query (A default docset is provided).
+	
 	![LeaderLeader-z example](.img/leaderLeaderZ.gif "An example of how to use leader-leader-z with zeavim")
-
-	Multiple docsets can be defined, just separate them by a comma.
+	
+	- Multiple docsets can be defined, just separate them by a comma.
+	- The docset name can be completed using `tab`, see [completion](#completion) for that.
 
 Mapping <a id="mapping"></a>
 -------
@@ -70,8 +72,9 @@ Mapping <a id="mapping"></a>
 You can easily change the mapping keys of zeavim:
 
 ```
-nmap gz <Plug>Zeavim           " <leader>z (NORMAL mode)
-vmap gz <Plug>ZVVisSelection   " <leader>z (VISUAL mode)
+nmap gzz <Plug>Zeavim           " <leader>z (NORMAL mode)
+vmap gzz <Plug>ZVVisSelection   " <leader>z (VISUAL mode)
+nmap gz <Plug>ZVMotion         " gz{motion} (NORMAL mode)
 nmap gZ <Plug>ZVKeyDocset      " <leader><leader>z
 ```
 
@@ -216,8 +219,9 @@ My configuration
 ----------------
 
 ```
-nmap gz <Plug>Zeavim
-vmap gz <Plug>ZVVisSelection
+nmap gzz <Plug>Zeavim
+vmap gzz <Plug>ZVVisSelection
+nmap gz <Plug>ZVMotion
 nmap gZ <Plug>ZVKeyDocset
 let g:zv_file_types = {
 			\ 'python': 'python 3',
