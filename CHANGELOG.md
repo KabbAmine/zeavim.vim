@@ -3,6 +3,17 @@ CHANGELOG
 
 Starting from version `2.0.0` the plugin uses [semantic versionning 2.0.0](http://semver.org/).
 
+2.1.0 <small>(2016-01-13)</small>
+------------------------------
+
+* Internal refactoring
+
+### Features
+
+* New functionality: Search for a motion using `<Plug>ZVMotion`
+
+------------------------------
+
 2.0.1 <small>(2015-12-23)</small>
 ------------------------------
 
