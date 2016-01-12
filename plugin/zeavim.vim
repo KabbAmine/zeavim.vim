@@ -1,7 +1,7 @@
 " Global plugin that allows executing Zeal from Vim.
 " Version     : 2.0.1
 " Creation    : 2014-04-14
-" Last Change : 2016-01-03
+" Last Change : 2016-01-12
 " Maintainer  : Kabbaj Amine <amine.kabb@gmail.com>
 " License     : This file is placed in the public domain.
 
@@ -33,9 +33,9 @@ if !exists('g:zv_disable_mapping')
 	endif
 endif
 nnoremap <unique> <script> <Plug>Zeavim <SID>Zeavim
-nnoremap <silent> <SID>Zeavim :call zeavim#SearchForCurrent()<CR>
+nnoremap <silent> <SID>Zeavim :call zeavim#SearchForCurrent(expand('<cword>'))<CR>
 vnoremap <unique> <script> <Plug>ZVVisSelection <SID>ZVVisSelection
-vnoremap <silent> <SID>ZVVisSelection :call zeavim#SearchForCurrent(1)<CR>
+vnoremap <silent> <SID>ZVVisSelection :call zeavim#SearchForCurrent('', 1)<CR>
 nnoremap <unique> <script> <Plug>ZVKeyDocset <SID>ZVKeyDocset
 nnoremap <silent> <SID>ZVKeyDocset :call zeavim#SearchFor()<CR>
 " }}}
@@ -43,8 +43,8 @@ nnoremap <silent> <SID>ZVKeyDocset :call zeavim#SearchFor()<CR>
 " COMMANDS
 " =====================================================================
 " {{{1
-command! Zeavim call zeavim#SearchForCurrent()
-command! -range ZvV call zeavim#SearchForCurrent(1)
+command! Zeavim call zeavim#SearchForCurrent(expand('<cword>'))
+command! -range ZvV call zeavim#SearchForCurrent('', 1)
 command! ZVKeyDocset call zeavim#SearchFor()
 command! -complete=custom,zeavim#CompleteDocsets -nargs=* Docset :call zeavim#DocsetInBuf(<f-args>)
 " }}}

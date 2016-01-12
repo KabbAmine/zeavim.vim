@@ -1,5 +1,5 @@
 " CREATION     : 2015-12-21
-" MODIFICATION : 2016-01-03
+" MODIFICATION : 2016-01-12
 
 " VARIABLES
 " =====================================================================
@@ -158,9 +158,9 @@ function! s:Zeal(docset, selection) abort " {{{1
 endfunction
 " }}}
 
-function! zeavim#SearchForCurrent(...) abort " {{{1
+function! zeavim#SearchForCurrent(selection, ...) abort " {{{1
 	" Execute Zeal with guessed docset, and:
-	"	cword as query
+	"	selection as query
 	"	or visual selection if a:1 exists
 
 	if s:CheckExecutable()
@@ -170,7 +170,7 @@ function! zeavim#SearchForCurrent(...) abort " {{{1
 			let l:s = s:GetVisualSelection()
 		else
 			" NORMAL mode
-			let l:s = expand('<cword>')
+			let l:s = a:selection
 		endif
 		if !empty(l:d) && !empty(l:s)
 			call s:Zeal(l:d, l:s)
