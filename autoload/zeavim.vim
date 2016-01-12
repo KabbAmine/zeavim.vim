@@ -129,14 +129,11 @@ function! s:SetDocset() abort " {{{1
 	return tolower(l:docset)
 endfunction
 function! s:GetVisualSelection() abort " {{{1
-	" Return the visual selection.
+	" Return the visual selection from the current line.
 
-	let l:selection = getline("'<")
-	let l:cursor = getpos("'<'")
-	let [l:line1,l:col1] = getpos("'<")[1:2]
-	let [l:line2,l:col2] = getpos("'>")[1:2]
-	call setpos('.', l:cursor)
-	return l:selection[l:col1 - 1: l:col2 - 1]
+	let l:pos = getpos("'<")
+	call setpos('.', l:pos)
+	return getline('.')[col("'<") - 1 : col("'>") - 1]
 endfunction
 function! s:Zeal(docset, selection) abort " {{{1
 	" Execute Zeal with the docset and selection passed in the arguments.
