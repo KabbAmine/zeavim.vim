@@ -3,6 +3,14 @@ CHANGELOG
 
 Starting from version `2.0.0` the plugin uses [semantic versionning 2.0.0](http://semver.org/).
 
+2.1.1 <small>(2016-05-18)</small>
+------------------------------
+
+* Internal refactoring: Unify the main zeal functions into one
+* Remove deprecated option `g:zv_lazy_docset_list`
+
+------------------------------
+
 2.1.0 <small>(2016-01-13)</small>
 ------------------------------
 

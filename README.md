@@ -1,5 +1,8 @@
-Zeavim, <small>Zeal for Vim</small> [![GitHub version](https://badge.fury.io/gh/kabbamine%2Fzeavim.vim.svg)](https://badge.fury.io/gh/kabbamine%2Fzeavim.vim)
+Zeavim, <small>Zeal for Vim</small>
 ===============================================================================================================================================
+
+![Badge version](https://img.shields.io/badge/version-2.1.1-blue.svg?style=flat-square "Badge for version")
+![License version](https://img.shields.io/badge/license-public-blue.svg?style=flat-square "Badge for license")
 
 [Description](#description) | [Installation](#description) | [Usage](#usage) | [Mapping](#mapping) | [Commands](#commands) | [Customization](#customization) | [Notes](#notes)
 
