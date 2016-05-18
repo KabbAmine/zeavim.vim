@@ -1,5 +1,5 @@
 " CREATION     : 2015-12-21
-" MODIFICATION : 2016-01-13
+" MODIFICATION : 2016-05-18
 
 " VARIABLES
 " =====================================================================
@@ -70,9 +70,6 @@ function! s:GetDocsetsList() abort " {{{1
 	" Remove duplicates (http://stackoverflow.com/questions/6630860/remove-duplicates-from-a-list-in-vim)
 	return filter(copy(s:docsetList), 'index(s:docsetList, v:val, v:key+1)==-1')
 endfunction
-function! zeavim#CompleteDocsets(A, L, P) abort " {{{1
-	return join(sort(s:GetDocsetsList()), "\n") . "\n"
-endfunction
 function! s:GetDocset(file, ext, ft) abort " {{{1
 	" Try to guess docset from:
 	" 1. file name
@@ -135,18 +132,37 @@ function! s:GetVisualSelection() abort " {{{1
 	call setpos('.', l:pos)
 	return getline('.')[col("'<") - 1 : col("'>") - 1]
 endfunction
-function! s:Zeal(docset, selection) abort " {{{1
-	" Execute Zeal with the docset and selection passed in the arguments.
+function! s:FromInput() abort " {{{1
+	" Ask for user input and return a list containing:
+	"	* Query
+	"	* Docset name (Use s:SetDocset() by default)
+
+	redir => l:m
+	silent call s:SetDocset()
+	redir END
+	" If no docset found, a message is stored into l:m
+	let l:d = input('Docset: ',
+				\ (!empty(l:m) ? '' : s:SetDocset()),
+				\ 'custom,zeavim#CompleteDocsets'
+				\ )
+	redraw!
+	call s:Echo(2, 'Zeal (' . l:d . ')')
+	let l:input = input('Search for: ')
+
+	return [l:input, l:d]
+endfunction
+function! s:Zeal(docset, query) abort " {{{1
+	" Execute Zeal with the docset and query passed in the arguments.
 
 	let l:docset = !empty(a:docset) ? tr(a:docset, '_', ' ') . ':' : ''
-	let l:selection = !empty(a:selection) ? a:selection : ''
+	let l:query = !empty(a:query) ? a:query : ''
 	let l:focus = has('unix') && executable('wmctrl') && v:windowid !=# 0 ?
 				\ '&& wmctrl -ia ' . v:windowid . ' ' :
 				\ ''
 	let l:cmd = printf('!%s%s %s %s%s &',
 				\ (has('unix') ? '' : 'start '),
 				\ g:zv_zeal_executable,
-				\ shellescape(l:docset . l:selection),
+				\ shellescape(l:docset . l:query),
 				\ l:focus,
 				\ (has('unix') ? '2> /dev/null' : '')
 			\ )
@@ -155,56 +171,34 @@ function! s:Zeal(docset, selection) abort " {{{1
 endfunction
 " }}}
 
-function! zeavim#SearchForCurrent(selection, ...) abort " {{{1
-	" Execute Zeal with guessed docset, and:
-	"	selection as query
-	"	or visual selection if a:1 exists
+function! zeavim#SearchFor(...) abort " {{{1
+	" Execute Zeal with:
+	"	a:1 as a query (Or visual selection if a:2 exists)
+	"	call s:FromInput() if no argument(s) were passed
 
 	if s:CheckExecutable()
-		let l:d = s:SetDocset()
 		if exists('a:1')
-			" VISUAL selection
-			let l:s = s:GetVisualSelection()
+			let l:s = exists('a:2') ? s:GetVisualSelection() : a:1
+			let l:d = s:SetDocset()
+			if !empty(l:s) && !empty(l:d)
+				call s:Zeal(l:d, l:s)
+			endif
 		else
-			" NORMAL mode
-			let l:s = a:selection
-		endif
-		if !empty(l:d) && !empty(l:s)
-			call s:Zeal(l:d, l:s)
+			let [l:s, l:d] = s:FromInput()
+			if !empty(l:s)
+				" Allow here empty docset
+				call s:Zeal(l:d, l:s)
+			endif
 		endif
 	endif
 endfunction
-function! zeavim#SearchFor() abort " {{{1
-	" Execute Zeal with user inputs:
-	"	* docset (Use s:SetDocset() by default)
-	"	* query
-
-	if s:CheckExecutable()
-		redir => l:m
-		silent call s:SetDocset()
-		redir END
-		" If no docset found, a message is stored into l:m
-		let l:d = input('Docset: ',
-					\ (!empty(l:m) ? '' : s:SetDocset()),
-					\ 'custom,zeavim#CompleteDocsets'
-				\ )
-		redraw!
-		call s:Echo(2, 'Zeal (' . l:d . ')')
-		let l:input = input('Search for: ')
-		if empty(l:d) && empty(l:input)
-			redraw!
-		else
-			call s:Zeal(l:d, l:input)
-		endif
-	endif
+function! zeavim#CompleteDocsets(A, L, P) abort " {{{1
+	return join(sort(s:GetDocsetsList()), "\n") . "\n"
 endfunction
-function! zeavim#SearchForMotion(...) abort " {{{1
-	" Function to use with `operatorfunc`
-
-	let l:selection = getline('.')[col("'[") - 1 : col("']") - 1]
-	call zeavim#SearchForCurrent(l:selection)
+function! zeavim#OperatorFun(...) abort " {{{1
+	call zeavim#SearchFor(getline('.')[col("'[") - 1 : col("']") - 1])
 endfunction
-function! zeavim#DocsetInBuf(...) abort " {{{1
+function! zeavim#DocsetInBuffer(...) abort " {{{1
 	if exists('a:000')
 		let l:d = len(a:000) ># 1 ? join(a:000, ',') : join(a:000)
 		call setbufvar('%', 'manualDocset', l:d)
@@ -212,6 +206,6 @@ function! zeavim#DocsetInBuf(...) abort " {{{1
 		call setbufvar('%', 'manualDocset', '')
 	endif
 endfunction
-" }}}
+" 1}}}
 
 " vim:ft=vim:fdm=marker:fmr={{{,}}}:
