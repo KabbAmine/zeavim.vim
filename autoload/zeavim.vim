@@ -62,11 +62,6 @@ function! s:GetDocsetsList() abort " {{{1
 	if exists('g:zv_docsets_dir')
 		call extend(s:docsetList, s:GetDocsetsFromDir())
 	endif
-	" WILL BE REMOVED ====================================
-	if exists('g:zv_lazy_docset_list')
-		call extend(s:docsetList, g:zv_lazy_docset_list)
-	endif
-	" ====================================================
 	" Remove duplicates (http://stackoverflow.com/questions/6630860/remove-duplicates-from-a-list-in-vim)
 	return filter(copy(s:docsetList), 'index(s:docsetList, v:val, v:key+1)==-1')
 endfunction
