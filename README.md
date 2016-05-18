@@ -71,7 +71,7 @@ Mapping <a id="mapping"></a>
 
 You can easily change the mapping keys of zeavim:
 
-```
+```vim
 nmap gzz <Plug>Zeavim           " <leader>z (NORMAL mode)
 vmap gzz <Plug>ZVVisSelection   " <leader>z (VISUAL mode)
 nmap gz <Plug>ZVMotion         " gz{motion} (NORMAL mode)
@@ -87,7 +87,7 @@ Commands <a id="commands"></a>
 
 For those of you who prefer commands, here they are:
 
-```
+```vim
 Zeavim    " NORMAL mode
 ZvV       " VISUAL mode
 ZvKD      " Type docset and query
@@ -97,11 +97,15 @@ ZvKD      " Type docset and query
 
 If you need a lazy way to specify a docset, you can use:
 
-    Docset DOCSET_NAME
+```vim
+Docset DOCSET_NAME
+```
 
 As an example, I'm working on a `scss` file but I want to get `compass` documentation when using Zeavim, so I just need to specify manually this docset:
 
-    Docset compass
+```vim
+Docset compass
+```
 
 Then Zeavim **only for the current buffer** will use `compass` as a docset.
 Note that you can define multiple docsets here.
@@ -120,13 +124,13 @@ Customization <a id="customization"></a>
 By default zeavim looks for an executable named `zeal` on your PATH for UNIX and in `%ProgramFiles%/Zeal/zeal.exe` for Windows.
 You can specify Zeal's location manually by adding in your vimrc:
 
-```
+```vim
 let g:zv_zeal_executable = 'path/to/zeal'
 ```
 
 Or if you're using both OS:
 
-```
+```vim
 let g:zv_zeal_executable = has('win32') ?
 			\ 'path/to/zeal.exe' :
 			\ 'path/to/zeal'
@@ -145,12 +149,12 @@ If you need to add another file names, extensions or file types (Or overwrite th
 
 It's a dictionary where keys can be filename, file extension or file type and values are the docset names.
 
-```
+```vim
 " For the docset, not mandatory but you can use underscores instead of spaces
 let g:zv_file_types = {
-    \ 'FILE_NAME' : 'DOCSET_NAME',
-    \ 'EXTENSION' : 'DOCSET NAME',
-    \ 'FILE_TYPE' : 'DOCSET_NAME',
+    \	'FILE_NAME' : 'DOCSET_NAME',
+    \	'EXTENSION' : 'DOCSET NAME',
+    \	'FILE_TYPE' : 'DOCSET_NAME',
     \ }
 ```
 
@@ -164,15 +168,15 @@ If a key starts with `^`, it will be considered as a regex. It is useful if you 
 
 e.g
 
-```
+```vim
 let g:zv_file_types = {
-			\ 'cpp'                   : 'c++',
-			\ '^(G|g)runtfile\.'      : 'grunt',
-			\ '^(G|g)ulpfile\.'       : 'gulp',
-			\ '.htaccess'             : 'apache_http_server',
-			\ '^(md|mdown|mkd|mkdn)$' : 'markdown',
-			\ 'css'                   : 'css,foundation,bootstrap_4',
-		\ }
+			\	'cpp'                   : 'c++',
+			\	'^(G|g)runtfile\.'      : 'grunt',
+			\	'^(G|g)ulpfile\.'       : 'gulp',
+			\	'.htaccess'             : 'apache_http_server',
+			\	'^(md|mdown|mkd|mkdn)$' : 'markdown',
+			\	'css'                   : 'css,foundation,bootstrap_4',
+			\ }
 ```
 
 **N.B:** All the values above are already defined in the plugin, a part the `css` one.
@@ -181,7 +185,7 @@ let g:zv_file_types = {
 
 You can disable the default mappings:
 
-```
+```vim
 let g:zv_disable_mapping = 1
 ```
 
@@ -197,39 +201,31 @@ By default zeavim assumes that Zeal docsets are located in `%LOCALAPPDATA%\Local
 If you have them in a different folder, just set the correct path in `g:zv_docsets_dir` variable.
 
 e.g
-```
+
+```vim
 let g:zv_docsets_dir = has('win32') ?
 			\ 'path/to/docsets/in/win' :
 			\ 'path/to/docsets/in/unix'
 ```
 
--------------------------------------------------------------
-
-**THE NEXT OPTION WILL BE REMOVED, SO DON'T RELAY ON IT**
-
-Another way to enable completion just for a few docsets (Why not!), instead of `g:zv_docsets_dir` use `g:zv_lazy_docset_list`.
-
-e.g
-
-```
-let g:zv_lazy_docset_list = [ 'Compass', 'Bootstrap', 'Vagrant', 'Font Awesome' ]
-```
-
 My configuration
 ----------------
 
-```
+```vim
 nmap gzz <Plug>Zeavim
 vmap gzz <Plug>ZVVisSelection
+nmap <leader>z <Plug>ZVKeyDocset
+nmap gZ <Plug>ZVKeyDocset<CR>
 nmap gz <Plug>ZVMotion
-nmap gZ <Plug>ZVKeyDocset
 let g:zv_file_types = {
-			\ 'python': 'python 3',
-			\ 'ruby': 'ruby,ruby 2'
-		\ }
-let g:zv_docsets_dir = has('unix') ?
+			\	'python'           : 'python 3',
+			\	'javascript'       : 'javascript,nodejs',
+			\	'^(G|g)ulpfile\.'  : 'gulp,javascript,nodejs',
+			\	'help'             : 'vim'
+			\ }
+let g:zv_docsets_dir = g:hasUnix ?
 			\ '~/Important!/docsets_Zeal/' :
-			\ 'Z:/myUser/Important!/docsets_Zeal/'
+			\ 'Z:/k-bag/Important!/docsets_Zeal/'
 ```
 
 Notes <a id="notes"></a>

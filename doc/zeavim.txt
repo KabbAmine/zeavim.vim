@@ -1,6 +1,6 @@
 *zeavim.txt*	Execute the documentation browser Zeal from Vim.
 
-    For Vim version 7.0 and above	Last change: 2016-01-13
+    For Vim version 7.0 and above	Last change: 2016-05-18
 
 	ZEAVIM - EXECUTE THE DOCUMENTATION BROWSER ZEAL FROM VIM~
 						from Kabbaj Amine~
@@ -177,9 +177,9 @@ It's a dictionary where keys can be filename, file extension or file type and va
 >
     " For the docset, not mandatory but you can use underscores instead of spaces
     let g:zv_file_types = {
-        \ 'FILE_NAME' : 'DOCSET_NAME',
-        \ 'EXTENSION' : 'DOCSET NAME',
-        \ 'FILE_TYPE' : 'DOCSET_NAME',
+        \	'FILE_NAME' : 'DOCSET_NAME',
+        \	'EXTENSION' : 'DOCSET NAME',
+        \	'FILE_TYPE' : 'DOCSET_NAME',
         \ }
 
 Here again you can define multiple docsets for a type, just separate them by a comma.
@@ -190,12 +190,12 @@ If a key starts with `^`, it will be considered as a regex. It is useful if you 
 
 e.g >
     let g:zv_file_types = {
-    			\ 'cpp'                   : 'c++',
-    			\ '^(G|g)runtfile\.'      : 'grunt',
-    			\ '^(G|g)ulpfile\.'       : 'gulp',
-    			\ '.htaccess'             : 'apache_http_server',
-    			\ '^(md|mdown|mkd|mkdn)$' : 'markdown',
-    			\ 'css'                   : 'css,foundation,bootstrap_4',
+    			\	'cpp'                   : 'c++',
+    			\	'^(G|g)runtfile\.'      : 'grunt',
+    			\	'^(G|g)ulpfile\.'       : 'gulp',
+    			\	'.htaccess'             : 'apache_http_server',
+    			\	'^(md|mdown|mkd|mkdn)$' : 'markdown',
+    			\	'css'                   : 'css,foundation,bootstrap_4',
 			\ }
 
 N.B: All the values above are already defined in the plugin, a part the `css` one.
@@ -224,13 +224,6 @@ e.g >
     let g:zv_docsets_dir = has('win32') ?
     			\ 'path/to/docsets/in/win' :
     			\ 'path/to/docsets/in/unix'
-
-**THE NEXT OPTION WILL BE REMOVED, SO DON'T RELAY ON IT**
-
-Another way to enable completion just for a few docsets (Why not!), instead of `g:zv_docsets_dir` use `g:zv_lazy_docset_list`.
-
-e.g >
-    let g:zv_lazy_docset_list = [ 'Compass', 'Bootstrap', 'Vagrant', 'Font Awesome' ]
 
 ========================================================================
 7. |NOTES|				*zeavim-notes*
