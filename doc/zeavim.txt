@@ -20,9 +20,9 @@ License : This file is placed in the public domain.
 4. MAPPING				|zeavim-mapping|
     4.1. Default mapping.		|zeavim-mapping:default|
     4.2. Custom mapping			|zeavim-mapping:custom|
-5. COMMANDS				|zeavim-command|
-    5.1. Main commands			|zeavim-command:main|
-    5.2. Specify manually docset	|zeavim-command:docset|
+5. COMMANDS				|zeavim-commands|
+    5.1. Main commands			|zeavim-commands:main|
+    5.2. Specify manually docset	|zeavim-commands:docset|
 6. SETTINGS				|zeavim-settings|
     6.1. Zeal's location		|zeavim-settings:location|
     6.2. Add file types			|zeavim-settings:new-types|
@@ -116,7 +116,7 @@ Notice that for changing `<leader>z` in visual mode it's preferable to use
 
 ------------------------------------------------------------------------
 5.1. Main commands~
-*zeavim-command:main*
+*zeavim-commands:main*
 
 If you prefer, you can use commands instead of keyboard shortcuts.
 
@@ -127,7 +127,7 @@ Here are all of them: >
 
 ------------------------------------------------------------------------
 5.2. Specify manually docset
-*zeavim-command:docset*
+*zeavim-commands:docset*
 
 If you need a lazy way to specify a docset, you can use: >
 	Docset DOCSET_NAME
