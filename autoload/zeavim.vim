@@ -157,7 +157,7 @@ function! s:Zeal(docset, query) abort " {{{1
 	let l:cmd = printf('!%s%s %s %s%s &',
 				\ (has('unix') ? '' : 'start '),
 				\ g:zv_zeal_executable,
-				\ shellescape(l:docset . l:query),
+				\ shellescape(l:docset . fnameescape(l:query)),
 				\ l:focus,
 				\ (has('unix') ? '2> /dev/null' : '')
 			\ )
