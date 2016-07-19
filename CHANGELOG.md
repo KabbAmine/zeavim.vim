@@ -3,6 +3,19 @@ CHANGELOG
 
 Starting from version `2.0.0` the plugin uses [semantic versionning 2.0.0](http://semver.org/).
 
+2.2.0 <small>(2016-07-19)</small>
+------------------------------
+
+* Unify all commands into one unique `Zeavim`
+* Refactoring
+* Bug fixes
+
+### Features
+
+* New option `g:zv_get_docset_by` to set order/criteria(s) for docset finding
+
+------------------------------
+
 2.1.1 <small>(2016-05-18)</small>
 ------------------------------
 
