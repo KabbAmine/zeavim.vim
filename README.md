@@ -15,14 +15,12 @@ Zeavim allows to use the offline documentation browser [Zeal](http://zealdocs.or
 
 ### Features
 
-- Search for word under cursor, a motion or a visual selection.
+- Search for word under cursor, a text motion or a visual selection.
 - Search without losing focus from Vim if Zeal is already opened (Need wmctrl on UNIX).
-- Possibility to specify dynamically a docset.
-- Narrow search with a query.
+- Narrow search with a docset or a query.
 - Allows using multiple docsets.
 - Docset name completion.
-- Define you own docsets using file types, extentions or regex.
-- Supports docsets specific to file names (e.g `gulpfile.js`)
+- Define you own docsets using patterns.
 - Works on GNU/Linux and Windows.
 
 *Starting from version `2.0.0` the plugin is following [semantic versionning 2.0.0](http://semver.org/).*
@@ -38,29 +36,33 @@ Install the distributed files into Vim runtime directory which is usually `~/.vi
 
 ### Using a plugin manager
 
-And this is the best way, use a vim plugin manager:
+And this is the best way, use a vim plugin manager.  
+Here an example with [Vim-plug](https://github.com/junegunn/vim-plug) and its lazy loading functionnality:
 
-| Plugin manager                                         | In vimrc                         | Installation command |
-|--------------------------------------------------------|----------------------------------|----------------------|
-| [Vim-plug](https://github.com/junegunn/vim-plug)       | `Plug 'KabbAmine/zeavim.vim'`      | `PlugInstall`          |
-| [Vundle](https://github.com/gmarik/Vundle.vim)         | `Plugin 'KabbAmine/zeavim.vim'`    | `PluginInstall`        |
-| [NeoBundle](https://github.com/Shougo/neobundle.vim)   | `NeoBundle 'KabbAmine/zeavim.vim'` | `NeoBundleInstall`     |
-
+```vim
+Plug 'KabbAmine/zeavim.vim', {'on': [
+			\	'Zeavim',
+			\	'<Plug>Zeavim',
+			\	'<Plug>ZVVisSelection',
+			\	'<Plug>ZVKeyDocset',
+			\	'<Plug>ZVMotion'
+			\ ]}
+```
 
 Usage <a id="usage"></a>
 -----
 
 There are 3 ways of using zeavim:
 
-1. `<leader>z`
+1. `<leader>z` or `:Zeavim`
 
-	Search for word under cursor with the docset defined automatically<sup><a href="#plus">+</a></sup>.
+	Search for word under cursor (Or visual selection) with the docset defined automatically<sup><a href="#plus">+</a></sup>.
 
 2. `gz{motion}`
 
 	Search for a motion with the docset defined automatically<sup><a href="#plus">+</a></sup>.
 
-3. `<leader><leader>z`
+3. `<leader><leader>z` or `:Zeavim!`
 
 	Narrow search with a docset<sup><a href="#plus">+</a></sup> and a query (A default docset is provided).
 	
@@ -77,8 +79,8 @@ You can easily change the mapping keys of zeavim:
 ```vim
 nmap gzz <Plug>Zeavim           " <leader>z (NORMAL mode)
 vmap gzz <Plug>ZVVisSelection   " <leader>z (VISUAL mode)
-nmap gz <Plug>ZVMotion         " gz{motion} (NORMAL mode)
-nmap gZ <Plug>ZVKeyDocset      " <leader><leader>z
+nmap gz <Plug>ZVMotion          " gz{motion} (NORMAL mode)
+nmap gZ <Plug>ZVKeyDocset       " <leader><leader>z
 ```
 
 You can [disable the default mappings](#disableMappings), but this is useful only if you're not going to use all the `<Plug>`'s above.
@@ -88,13 +90,14 @@ Commands <a id="commands"></a>
 
 ### Main commands
 
-For those of you who prefer commands, here they are:
+A unique command `Zeavim` is provided.
 
 ```vim
-Zeavim    " NORMAL mode
-ZvV       " VISUAL mode
-ZvKD      " Type docset and query
+:Zeavim     " NORMAL & VISUAL modes
+:Zeavim!    " Ask for docset & query
 ```
+
+**N.B:** The commands `ZvV` and `ZVKeyDocset` are still available to maintain compatibility with old versions.
 
 ### Specify manually a docset
 
@@ -115,7 +118,7 @@ Note that you can define multiple docsets here.
 
 The docset name can be completed, for that see [completion](#completion).
 
-To revert that and get zeavim working like usually, a simple `Docset` without argument is enough.
+To set back the initial docset, a simple `Docset` without argument is enough.
 
 ![Specify manually a docset](.img/docsetCmd.gif)
 
@@ -139,18 +142,23 @@ let g:zv_zeal_executable = has('win32') ?
 			\ 'path/to/zeal'
 ```
 
-### Add file types <a id="plus">+</a>
+### Add file types
 
-To define the docset, the plugin uses by order one of those:
+By default, the plugin defines a few docsets:
 
-* The value defined by `:Docset` command.
-* The file name.
-* The file extension.
-* The file type.
+```vim
+'cpp' : 'c++'
+'scss': 'sass'
+'sh'  : 'bash'
+'tex' : 'latex'
+```
 
-If you need to add another file names, extensions or file types (Or overwrite those by default), you can use `g:zv_file_types` variable.
+Its up to you to add patterns (Or overwrite the default ones).  
+For that you can use `g:zv_file_types` variable.  
+It's a dictionary where:
 
-It's a dictionary where keys can be filename, file extension or file type and values are the docset names.
+* The keys are pattern(s) that can match file names, file types or file extensions.
+* The values are the docset names.
 
 ```vim
 " For the docset, not mandatory but you can use underscores instead of spaces
@@ -163,26 +171,23 @@ let g:zv_file_types = {
 
 Here again you can define multiple docsets for a type, just separate them by a comma.
 
-```
+```vim
 'TYPE': 'DOCSET1,DOCSET2'
 ```
 
-If a key starts with `^`, it will be considered as a regex. It is useful if you want to define many types to one docset (Note that the regex will use vim magic).
+Note that you are using regex, so it can be a more accurate pattern:  
 
 e.g
 
 ```vim
 let g:zv_file_types = {
-			\	'cpp'                   : 'c++',
-			\	'^(G|g)runtfile\.'      : 'grunt',
-			\	'^(G|g)ulpfile\.'       : 'gulp',
-			\	'.htaccess'             : 'apache_http_server',
-			\	'^(md|mdown|mkd|mkdn)$' : 'markdown',
-			\	'css'                   : 'css,foundation,bootstrap_4',
+			\	'css'                      : 'css,foundation,bootstrap_4',
+			\	'.htaccess'                : 'apache_http_server',
+			\	'\v^(G|g)runt\.'           : 'gulp,javascript,nodejs',
+			\	'\v^(G|g)ulpfile\.'        : 'grunt',
+			\	'\v^(md|mdown|mkd|mkdn)$'  : 'markdown',
 			\ }
 ```
-
-**N.B:** All the values above are already defined in the plugin, a part the `css` one.
 
 ### Disable default mappings <a id="disableMappings"></a>
 
@@ -193,6 +198,31 @@ let g:zv_disable_mapping = 1
 ```
 
 If you're using all the functionalities of the plugin (NORMAL, VISUAL, docset and query manual input), no need of setting this variable, just *map* the `<Plug>`'s normally.
+
+### Order and criteria of defining docset <a id="plus"></a>
+
+To define the docset, the plugin uses by order:
+
+* The value defined by `:Docset` command.
+* The values defined in `g:zv_get_docset_by`.
+
+The default value of `g:zv_get_docset_by` is `['file', 'ext', 'ft']`.  
+That means that the plugin will try to find a pattern matching:
+
+1. The current file name
+2. The current file extension
+3. The current file type
+
+You can set a specific order or remove a criteria:
+
+```vim
+" Find matching pattern to the file type only:
+let g:zv_get_docset_by = ['ft']
+
+" Find matching pattern to the extension first, then to the file name 
+" and finally to the type.
+let g:zv_get_docset_by = ['ext', 'file', 'ft']
+```
 
 ### Docset name completion <a id="completion"></a>
 
@@ -217,18 +247,19 @@ My configuration
 ```vim
 nmap gzz <Plug>Zeavim
 vmap gzz <Plug>ZVVisSelection
-nmap <leader>z <Plug>ZVKeyDocset
 nmap gZ <Plug>ZVKeyDocset<CR>
 nmap gz <Plug>ZVMotion
+nmap <leader>z <Plug>ZVKeyDocset
 let g:zv_file_types = {
-			\	'python'           : 'python 3',
-			\	'javascript'       : 'javascript,nodejs',
-			\	'^(G|g)ulpfile\.'  : 'gulp,javascript,nodejs',
-			\	'help'             : 'vim'
+			\	'help'               : 'vim',
+			\	'.htaccess'          : 'apache http server',
+			\	'javascript'         : 'javascript,nodejs',
+			\	'python'             : 'python 3',
+			\	'\v^(G|g)ulpfile\.'  : 'gulp,javascript,nodejs',
 			\ }
 let g:zv_docsets_dir = g:hasUnix ?
 			\ '~/Important!/docsets_Zeal/' :
-			\ 'Z:/k-bag/Important!/docsets_Zeal/'
+			\ 'Z:/username/Important!/docsets_Zeal/'
 ```
 
 Notes <a id="notes"></a>
