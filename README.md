@@ -6,6 +6,30 @@ Zeavim, <small>Zeal for Vim</small>
 
 [Description](#description) | [Installation](#description) | [Usage](#usage) | [Mapping](#mapping) | [Commands](#commands) | [Customization](#customization) | [Notes](#notes)
 
+-------
+
+**:warning: STARTING FROM VERSION `2.2.0` ALL THE KEYS OF `g:zv_file_types` ARE CONSIDERED AS REGEX AND VIM MAGIC IS NOT APPLIED BY DEFAULT, SO PLEASE UPDATE YOUR CONFIGURATION:**
+
+e.g
+
+```vim
+" CHANGE THIS
+let g:zv_file_types = {
+    \	'(ft1|ft2)' : 'foobar',
+    \ }
+
+" TO THIS
+let g:zv_file_types = {
+    \	'\v(ft1|ft2)' : 'foobar',
+    \ }
+" OR THIS
+let g:zv_file_types = {
+    \	'\(ft1\|ft2\)' : 'foobar',
+    \ }
+```
+
+-------
+
 Description <a id="description"></a>
 -------------
 
@@ -22,8 +46,6 @@ Zeavim allows to use the offline documentation browser [Zeal](http://zealdocs.or
 - Docset name completion.
 - Define you own docsets using patterns.
 - Works on GNU/Linux and Windows.
-
-*Starting from version `2.0.0` the plugin is following [semantic versionning 2.0.0](http://semver.org/).*
 
 Installation <a id="installation"></a>
 -------------
