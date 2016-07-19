@@ -1,5 +1,5 @@
 " CREATION     : 2015-12-21
-" MODIFICATION : 2016-05-18
+" MODIFICATION : 2016-07-19
 
 " VARIABLES
 " =====================================================================
@@ -27,6 +27,9 @@ if exists('g:zv_file_types')
 	" Tr spaces to _ to allow multiple docsets
 	call extend(s:docsetsDic, map(g:zv_file_types, 'tr(v:val, " ", "_")'))
 endif
+" Order for setting the docset {{{1
+let g:zv_get_docset_by = exists('g:zv_get_docset_by') ?
+			\ g:zv_get_docset_by : ['file', 'ext', 'ft']
 " }}}
 
 " FUNCTIONS
@@ -68,7 +71,7 @@ function! s:GetDocset(file, ext, ft) abort " {{{1
 	" 3. file type
 
 	let l:docset = ''
-	for l:t in ['file', 'ext', 'ft']
+	for l:t in g:zv_get_docset_by
 		for l:k in keys(s:docsetsDic)
 			if match(a:{l:t}, l:k) ==# 0
 				let l:docset = s:docsetsDic[l:k]
