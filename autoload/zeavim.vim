@@ -130,14 +130,14 @@ function! s:Zeal(docset, query) abort " {{{1
 	" Execute Zeal with the docset and query passed in the arguments.
 
 	let l:docset = !empty(a:docset) ? tr(a:docset, '_', ' ') . ':' : ''
-	let l:query = !empty(a:query) ? a:query : ''
+	let l:query = !empty(a:query) ? escape(a:query, '#%') : ''
 	let l:focus = has('unix') && executable('wmctrl') && v:windowid !=# 0 ?
 				\ '&& wmctrl -ia ' . v:windowid . ' ' :
 				\ ''
 	let l:cmd = printf('!%s%s %s %s%s &',
 				\ (has('unix') ? '' : 'start '),
 				\ g:zv_zeal_executable,
-				\ shellescape(l:docset . fnameescape(l:query)),
+				\ shellescape(l:docset . l:query),
 				\ l:focus,
 				\ (has('unix') ? '2> /dev/null' : '')
 			\ )
