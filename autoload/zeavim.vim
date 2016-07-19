@@ -147,23 +147,33 @@ endfunction
 " }}}
 
 function! zeavim#SearchFor(...) abort " {{{1
-	" Execute Zeal with:
-	"	a:1 as a query (Or visual selection if a:2 exists)
-	"	call s:FromInput() if no argument(s) were passed
+	" args: (bang, query, [line1, line2])
+	" If bang
+	"	Execute s:FromInput()
+	" If no bang, execute Zeal with:
+	"	query
+	"	or visual selection if [line1, line2] is different from [1,
+	"	last line]
 
-	if s:CheckExecutable()
-		if exists('a:1')
-			let l:s = exists('a:2') ? s:GetVisualSelection() : a:1
-			let l:d = s:SetDocset()
-			if !empty(l:s) && !empty(l:d)
-				call s:Zeal(l:d, l:s)
-			endif
-		else
-			let [l:s, l:d] = s:FromInput()
-			" Allow here empty docset
-			if !empty(l:s)
-				call s:Zeal(l:d, l:s)
-			endif
+	if !s:CheckExecutable()
+		return 0
+	endif
+
+	let l:bang = exists('a:1') ? a:1 : ''
+	let l:query = exists('a:2') ? a:2 : ''
+	let l:visual = exists('a:3') && a:3 !=# [1, line('$')]
+
+	if l:bang ==# '!'
+		let [l:s, l:d] = s:FromInput()
+		" Allow empty docset here
+		if !empty(l:s)
+			call s:Zeal(l:d, l:s)
+		endif
+	else
+		let l:s = l:visual ? s:GetVisualSelection() : l:query
+		let l:d = s:SetDocset()
+		if !empty(l:s) && !empty(l:d)
+			call s:Zeal(l:d, l:s)
 		endif
 	endif
 endfunction
@@ -171,7 +181,7 @@ function! zeavim#CompleteDocsets(A, L, P) abort " {{{1
 	return join(sort(s:GetDocsetsList()), "\n") . "\n"
 endfunction
 function! zeavim#OperatorFun(...) abort " {{{1
-	call zeavim#SearchFor(getline('.')[col("'[") - 1 : col("']") - 1])
+	call zeavim#SearchFor('', getline('.')[col("'[") - 1 : col("']") - 1])
 endfunction
 function! zeavim#DocsetInBuffer(...) abort " {{{1
 	if exists('a:000')
