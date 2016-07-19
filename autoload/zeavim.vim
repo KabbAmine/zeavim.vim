@@ -17,15 +17,11 @@ if !exists('g:zv_docsets_dir')
 endif
 " A dictionary containing the docset names of some file extensions {{{1
 let s:docsetsDic = {
-			\ 'cpp'                   : 'c++',
-			\ '^(G|g)runtfile\.'      : 'grunt',
-			\ '^(G|g)ulpfile\.'       : 'gulp',
-			\ '.htaccess'             : 'apache_http_server',
-			\ '^(md|mdown|mkd|mkdn)$' : 'markdown',
-			\ 'scss'                  : 'sass',
-			\ 'sh'                    : 'bash',
-			\ 'tex'                   : 'latex',
-		\ }
+			\	'cpp' : 'c++',
+			\	'scss': 'sass',
+			\	'sh'  : 'bash',
+			\	'tex' : 'latex',
+			\ }
 " Add external docset names from a global variable {{{1
 if exists('g:zv_file_types')
 	" Tr spaces to _ to allow multiple docsets
@@ -71,24 +67,19 @@ function! s:GetDocset(file, ext, ft) abort " {{{1
 	" 2. file extension
 	" 3. file type
 
-	for l:k in keys(s:docsetsDic)
-		" If the key starts with \v then we consider it as
-		" a regex, so we add magic!
-		let l:pattern = l:k =~# '\v^\^' ?
-					\ '\v' . l:k : l:k
-		if match(a:file, l:pattern) ==# 0
-			let l:docset = s:docsetsDic[l:k]
-			break
-		elseif match(a:ext, l:pattern) ==# 0
-			let l:docset = s:docsetsDic[l:k]
-			break
-		elseif match(a:ft, l:pattern) ==# 0
-			let l:docset = s:docsetsDic[l:k]
-			break
-		else
-			let l:docset = ''
-		endif
+	let l:docset = ''
+	for l:t in ['file', 'ext', 'ft']
+		for l:k in keys(s:docsetsDic)
+			if match(a:{l:t}, l:k) ==# 0
+				let l:docset = s:docsetsDic[l:k]
+				break
+			endif
+			if !empty(l:docset)
+				break
+			endif
+		endfor
 	endfor
+
 	if empty(l:docset) && !empty(a:ft)
 		let l:docset = a:ft
 	endif
