@@ -27,7 +27,7 @@ if exists('g:zv_file_types')
 	" Tr spaces to _ to allow multiple docsets
 	call extend(s:docsetsDic, map(g:zv_file_types, 'tr(v:val, " ", "_")'))
 endif
-" Order for setting the docset {{{1
+" Order or criteria for getting the docset {{{1
 let g:zv_get_docset_by = exists('g:zv_get_docset_by') ?
 			\ g:zv_get_docset_by : ['file', 'ext', 'ft']
 " }}}
@@ -65,10 +65,11 @@ function! s:GetDocsetsList() abort " {{{1
 	return filter(copy(s:docsetList), 'index(s:docsetList, v:val, v:key+1)==-1')
 endfunction
 function! s:GetDocset(file, ext, ft) abort " {{{1
-	" Try to guess docset from:
-	" 1. file name
-	" 2. file extension
-	" 3. file type
+	" Try to guess docset from what defined in g:zv_get_docset_by
+	" By default:
+	"	1. file name
+	" 	2. file extension
+	" 	3. file type
 
 	let l:docset = ''
 	for l:t in g:zv_get_docset_by
@@ -86,10 +87,7 @@ function! s:GetDocset(file, ext, ft) abort " {{{1
 	if empty(l:docset) && !empty(a:ft)
 		let l:docset = a:ft
 	endif
-	" If still empty, then...
-	if empty(l:docset)
-		call s:Echo(3, 'The file type is not recognized')
-	endif
+
 	return l:docset
 endfunction
 function! s:GetDocsetsFromDir() abort " {{{1
@@ -101,17 +99,9 @@ endfunction
 function! s:SetDocset() abort " {{{1
 	" Return the appropriate docset name.
 
-	let l:file = expand('%:p:t')
-	let l:ext = expand('%:e')
-	let l:ft = &filetype
-	if !empty(getbufvar('%', 'manualDocset'))
-		let l:docset = getbufvar('%', 'manualDocset')
-	elseif !empty(l:file) || !empty(l:ft) || !empty(l:ext)
-		let l:docset = s:GetDocset(l:file, l:ext, l:ft)
-	else
-		call s:Echo(3, 'No file type found')
-		let l:docset = ''
-	endif
+	let l:docset = !empty(getbufvar('%', 'manualDocset')) ?
+				\	getbufvar('%', 'manualDocset') :
+				\	s:GetDocset(expand('%:p:t'), expand('%:e'), &ft)
 	return tolower(l:docset)
 endfunction
 function! s:GetVisualSelection() abort " {{{1
@@ -126,19 +116,15 @@ function! s:FromInput() abort " {{{1
 	"	* Query
 	"	* Docset name (Use s:SetDocset() by default)
 
-	redir => l:m
-	silent call s:SetDocset()
-	redir END
-	" If no docset found, a message is stored into l:m
-	let l:d = input('Docset: ',
-				\ (!empty(l:m) ? '' : s:SetDocset()),
+	let l:docset = input('Docset: ',
+				\ s:SetDocset(),
 				\ 'custom,zeavim#CompleteDocsets'
 				\ )
 	redraw!
-	call s:Echo(2, 'Zeal (' . l:d . ')')
+	call s:Echo(2, 'Zeal (' . l:docset . ')')
 	let l:input = input('Search for: ')
 
-	return [l:input, l:d]
+	return [l:input, l:docset]
 endfunction
 function! s:Zeal(docset, query) abort " {{{1
 	" Execute Zeal with the docset and query passed in the arguments.
@@ -174,8 +160,8 @@ function! zeavim#SearchFor(...) abort " {{{1
 			endif
 		else
 			let [l:s, l:d] = s:FromInput()
+			" Allow here empty docset
 			if !empty(l:s)
-				" Allow here empty docset
 				call s:Zeal(l:d, l:s)
 			endif
 		endif
