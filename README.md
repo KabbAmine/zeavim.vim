@@ -227,6 +227,7 @@ To define the docset, the plugin uses by order:
 
 * The value defined by `:Docset` command.
 * The values defined in `g:zv_get_docset_by`.
+* The current file type.
 
 The default value of `g:zv_get_docset_by` is `['file', 'ext', 'ft']`.  
 That means that the plugin will try to find a pattern matching:
