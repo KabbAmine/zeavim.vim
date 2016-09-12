@@ -1,6 +1,6 @@
 *zeavim.txt*	Execute the documentation browser Zeal from Vim.
 
-    For Vim version 7.0 and above	Last change: 2016-07-19
+    For Vim version 7.0 and above	Last change: 2016-08-16
 
 	ZEAVIM - EXECUTE THE DOCUMENTATION BROWSER ZEAL FROM VIM~
 						from Kabbaj Amine~
@@ -175,6 +175,7 @@ It's a dictionary where:
 
 * The keys are pattern(s) that can match file names, file types or file extensions.
 * The values are the docset names.
+* The current file type.
 >
     " For the docset, not mandatory but you can use underscores instead of spaces
     let g:zv_file_types = {

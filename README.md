@@ -63,7 +63,7 @@ Here an example with [Vim-plug](https://github.com/junegunn/vim-plug) and its la
 
 ```vim
 Plug 'KabbAmine/zeavim.vim', {'on': [
-			\	'Zeavim',
+			\	'Zeavim', 'Docset',
 			\	'<Plug>Zeavim',
 			\	'<Plug>ZVVisSelection',
 			\	'<Plug>ZVKeyDocset',
