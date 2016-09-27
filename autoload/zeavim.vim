@@ -1,5 +1,5 @@
 " CREATION     : 2015-12-21
-" MODIFICATION : 2016-07-19
+" MODIFICATION : 2016-09-27
 
 " VARIABLES
 " =====================================================================
@@ -147,13 +147,12 @@ endfunction
 " }}}
 
 function! zeavim#SearchFor(...) abort " {{{1
-	" args: (bang, query, [line1, line2])
+	" args: (bang, query, visual)
 	" If bang
 	"	Execute s:FromInput()
 	" If no bang, execute Zeal with:
 	"	query
-	"	or visual selection if [line1, line2] is different from [1,
-	"	last line]
+	"	or visual selection if a:visal is not empty
 
 	if !s:CheckExecutable()
 		return 0
@@ -161,7 +160,7 @@ function! zeavim#SearchFor(...) abort " {{{1
 
 	let l:bang = exists('a:1') ? a:1 : ''
 	let l:query = exists('a:2') ? a:2 : ''
-	let l:visual = exists('a:3') && a:3 !=# [1, line('$')]
+	let l:visual = exists('a:3') && !empty(a:3) ? 1 : 0
 
 	if l:bang ==# '!'
 		let [l:s, l:d] = s:FromInput()

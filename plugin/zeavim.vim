@@ -1,7 +1,7 @@
 " Global plugin that allows executing Zeal from Vim.
 " Version     : 2.2.0
 " Creation    : 2014-04-14
-" Last Change : 2016-07-19
+" Last Change : 2016-09-27
 " Maintainer  : Kabbaj Amine <amine.kabb@gmail.com>
 " License     : This file is placed in the public domain.
 
@@ -40,7 +40,7 @@ nnoremap <unique> <script> <Plug>Zeavim <SID>Zeavim
 nnoremap <silent> <SID>Zeavim :call zeavim#SearchFor('', expand('<cword>'))<CR>
 
 vnoremap <unique> <script> <Plug>ZVVisSelection <SID>ZVVisSelection
-vnoremap <silent> <SID>ZVVisSelection :call zeavim#SearchFor('', '', [1,-1])<CR>
+vnoremap <silent> <SID>ZVVisSelection :call zeavim#SearchFor('', '', 'v')<CR>
 
 nnoremap <unique> <script> <Plug>ZVKeyDocset <SID>ZVKeyDocset
 nnoremap <silent> <SID>ZVKeyDocset :call zeavim#SearchFor('!')<CR>
@@ -53,11 +53,14 @@ nnoremap <silent> <SID>ZVMotion
 " COMMANDS
 " =====================================================================
 " {{{1
-" On unique command Zeavim
-command! -range=% -bang Zeavim call zeavim#SearchFor('<bang>', expand('<cword>'), [<line1>, <line2>])
-command! -complete=custom,zeavim#CompleteDocsets -nargs=* Docset :call zeavim#DocsetInBuffer(<f-args>)
+" One unique command
+command! -range -bang Zeavim
+			\	call zeavim#SearchFor('<bang>', expand('<cword>'), visualmode())
+command! -complete=custom,zeavim#CompleteDocsets -nargs=* Docset
+			\	call zeavim#DocsetInBuffer(<f-args>)
+
 " Keep old command names for compatibility
-command! -range=% ZvV call zeavim#SearchFor('', '', [<line1>, <line2>])
+command! -range ZvV call zeavim#SearchFor('', '', 'v')
 command! ZVKeyDocset Zeavim!
 " }}}
 
