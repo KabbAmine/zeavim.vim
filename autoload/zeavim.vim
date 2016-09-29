@@ -1,5 +1,5 @@
 " CREATION     : 2015-12-21
-" MODIFICATION : 2016-09-27
+" MODIFICATION : 2016-09-29
 
 " VARIABLES
 " =====================================================================
@@ -104,7 +104,7 @@ function! s:SetDocset() abort " {{{1
 
 	let l:docset = !empty(getbufvar('%', 'manualDocset')) ?
 				\	getbufvar('%', 'manualDocset') :
-				\	s:GetDocset(expand('%:p:t'), expand('%:e'), &ft)
+				\	s:GetDocset(expand('%:p:t'), expand('%:e:e'), &ft)
 	return tolower(l:docset)
 endfunction
 function! s:GetVisualSelection() abort " {{{1
