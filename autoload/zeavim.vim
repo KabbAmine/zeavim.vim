@@ -9,6 +9,9 @@ if !exists('g:zv_zeal_executable')
 				\ 'zeal' :
 				\ $ProgramFiles . '\Zeal\zeal.exe'
 endif
+" Arguments for the executable {{{1
+let g:zv_zeal_args = exists('g:zv_zeal_args') ?
+			\	g:zv_zeal_args : ''
 " Set Zeal's docset directory location {{{1
 if !exists('g:zv_docsets_dir')
 	let g:zv_docsets_dir = has('unix') ?
@@ -134,9 +137,10 @@ function! s:Zeal(docset, query) abort " {{{1
 	let l:focus = has('unix') && executable('wmctrl') && v:windowid !=# 0 ?
 				\ '&& wmctrl -ia ' . v:windowid . ' ' :
 				\ ''
-	let l:cmd = printf('!%s%s %s %s%s &',
+	let l:cmd = printf('!%s%s %s %s %s%s &',
 				\ (has('unix') ? '' : 'start '),
 				\ g:zv_zeal_executable,
+				\ g:zv_zeal_args,
 				\ shellescape(l:docset . l:query),
 				\ l:focus,
 				\ (has('unix') ? '2> /dev/null' : '')
