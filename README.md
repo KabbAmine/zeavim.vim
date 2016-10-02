@@ -164,6 +164,10 @@ let g:zv_zeal_executable = has('win32') ?
 			\ 'path/to/zeal'
 ```
 
+### Arguments for Zeal
+
+You can add arguments/flags to zeal command using `g:zv_zeal_args`.
+
 ### Add file types
 
 By default, the plugin defines a few docsets:
@@ -280,6 +284,7 @@ let g:zv_file_types = {
 			\	'python'             : 'python 3',
 			\	'\v^(G|g)ulpfile\.'  : 'gulp,javascript,nodejs',
 			\ }
+let g:zv_zeal_args = g:hasUnix ? '--style=gtk+' : ''
 let g:zv_docsets_dir = g:hasUnix ?
 			\ '~/Important!/docsets_Zeal/' :
 			\ 'Z:/username/Important!/docsets_Zeal/'

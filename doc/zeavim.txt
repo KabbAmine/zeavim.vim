@@ -1,6 +1,6 @@
 *zeavim.txt*	Execute the documentation browser Zeal from Vim.
 
-    For Vim version 7.0 and above	Last change: 2016-08-16
+    For Vim version 7.0 and above	Last change: 2016-10-02
 
 	ZEAVIM - EXECUTE THE DOCUMENTATION BROWSER ZEAL FROM VIM~
 						from Kabbaj Amine~
@@ -25,10 +25,11 @@ License : This file is placed in the public domain.
     5.2. Specify manually docset		|zeavim-commands:docset|
 6. SETTINGS					|zeavim-settings|
     6.1. Zeal's location			|zeavim-settings:location|
-    6.2. Add file types				|zeavim-settings:new-types|
-    6.3. Disable default mappings		|zeavim-settings:no-mapping|
-    6.4. Order and criteria of defining docset	|zeavim-settings:order|
-    6.5. Docset name completion			|zeavim-settings:docset-completion|
+    6.2. Zeal's arguments			|zeavim-settings:args|
+    6.3. Add file types				|zeavim-settings:new-types|
+    6.4. Disable default mappings		|zeavim-settings:no-mapping|
+    6.5. Order and criteria of defining docset	|zeavim-settings:order|
+    6.6. Docset name completion			|zeavim-settings:docset-completion|
 7. NOTES					|zeavim-notes|
 
 ========================================================================
@@ -157,6 +158,13 @@ Or if you're using both OS: >
     let g:zv_zeal_executable = has('win32') ?
 			\ 'path/to/zeal.exe' :
 			\ 'path/to/zeal'
+
+------------------------------------------------------------------------
+6.1. Zeal's arguments~
+*zeavim-settings:args*
+
+You can add arguments/flags to zeal command using `g:zv_zeal_args` (Equal to `''` by
+default)
 
 ------------------------------------------------------------------------
 6.2. Adding file types~
