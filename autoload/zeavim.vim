@@ -1,5 +1,5 @@
 " CREATION     : 2015-12-21
-" MODIFICATION : 2016-09-29
+" MODIFICATION : 2016-10-07
 
 " VARIABLES
 " =====================================================================
@@ -12,6 +12,8 @@ endif
 " Arguments for the executable {{{1
 let g:zv_zeal_args = exists('g:zv_zeal_args') ?
 			\	g:zv_zeal_args : ''
+" Keep or not the focus (Need wmctrl ond works only on GNU/linux) {{{1
+let g:zv_keep_focus = get(g:, 'zv_keep_focus', 1)
 " Set Zeal's docset directory location {{{1
 if !exists('g:zv_docsets_dir')
 	let g:zv_docsets_dir = has('unix') ?
@@ -134,9 +136,9 @@ function! s:Zeal(docset, query) abort " {{{1
 
 	let l:docset = !empty(a:docset) ? tr(a:docset, '_', ' ') . ':' : ''
 	let l:query = !empty(a:query) ? escape(a:query, '#%') : ''
-	let l:focus = has('unix') && executable('wmctrl') && v:windowid !=# 0 ?
-				\ '&& wmctrl -ia ' . v:windowid . ' ' :
-				\ ''
+	let l:focus = g:zv_keep_focus && has('unix') &&
+				\	executable('wmctrl') && v:windowid !=# 0 ?
+				\		'&& wmctrl -ia ' . v:windowid . ' ' : ''
 	let l:cmd = printf('!%s%s %s %s %s%s &',
 				\ (has('unix') ? '' : 'start '),
 				\ g:zv_zeal_executable,
