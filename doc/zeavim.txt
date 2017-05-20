@@ -94,7 +94,7 @@ The used keyword depends of your vim plugin manager: >
 `gz{motion}`  or  `<Plug>ZVMotion`
     Same as <Leader>z but use motion instead of `<word>.`
 
-`<Leader><leader>Z`  or  `Plug>ZVKeyDocset`
+`<Leader><leader>Z`  or  `<Plug>ZVKeyDocset`
     Narrow search with a docset (A default one is provided) and a query in
     input.
 
