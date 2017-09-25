@@ -22,7 +22,6 @@ if !exists('g:zv_docsets_dir')
 endif
 " A dictionary containing the docset names of some file extensions {{{1
 let s:docsetsDic = {
-			\	'cpp' : 'c++',
 			\	'scss': 'sass',
 			\	'sh'  : 'bash',
 			\	'tex' : 'latex',

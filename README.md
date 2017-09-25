@@ -173,7 +173,6 @@ You can add arguments/flags to zeal command using `g:zv_zeal_args`.
 By default, the plugin defines a few docsets:
 
 ```vim
-'cpp' : 'c++'
 'scss': 'sass'
 'sh'  : 'bash'
 'tex' : 'latex'
