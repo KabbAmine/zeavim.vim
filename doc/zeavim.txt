@@ -172,7 +172,6 @@ default)
 
 By default, the plugin defines a few docsets:
 >
-    cpp : c++
     scss: sass
     sh  : bash
     tex : latex
