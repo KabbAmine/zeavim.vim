@@ -33,14 +33,13 @@ endif
 " 1}}}
 
 " File type docsets {{{1
-let s:docsetsDic = {
+let g:zv_file_types = get(g:, 'zv_file_types', {})
+call extend(g:zv_file_types, {
             \   'scss': 'sass',
             \   'sh'  : 'bash',
             \   'tex' : 'latex'
-            \ }
-if exists('g:zv_file_types')
-    call extend(s:docsetsDic, g:zv_file_types)
-endif
+            \ }, 'keep')
+let s:docsetsDic = g:zv_file_types
 " 1}}}
 
 " Order or criteria for getting the docset {{{1
