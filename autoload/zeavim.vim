@@ -28,12 +28,39 @@ let s:docsetsDic = {
 			\ }
 " Add external docset names from a global variable {{{1
 if exists('g:zv_file_types')
-	" Tr spaces to _ to allow multiple docsets
-	call extend(s:docsetsDic, map(g:zv_file_types, 'tr(v:val, " ", "_")'))
+	call extend(s:docsetsDic, g:zv_file_types)
 endif
 " Order or criteria for getting the docset {{{1
 let g:zv_get_docset_by = exists('g:zv_get_docset_by') ?
 			\ g:zv_get_docset_by : ['file', 'ext', 'ft']
+" Docset keywords {{{1
+let s:docset_keywords = {
+            \   'apache_http_server'   : 'apache',
+            \   'appcelerator_titanium': 'titanium',
+            \   'aws_javascript'       : 'awsjs',
+            \   'cocos2d-x'            : 'cocos2dx',
+            \   'common_lisp'          : 'lisp',
+            \   'emacs_lisp'           : 'elisp',
+            \   'font_awesome'         : 'awesome',
+            \   'jquery_mobile'        : 'jquerym',
+            \   'jquery_ui'            : 'jqueryui',
+            \   'lo-dash'              : 'lodash',
+            \   'net_framework'        : 'net',
+            \   'play_java'            : 'playjava',
+            \   'play_scala'           : 'playscala',
+            \   'polymer.dart'         : 'polymerdart',
+            \   'python_2'             : 'python2',
+            \   'python_3'             : 'python3',
+            \   'qt_4'                 : 'qt4',
+            \   'ruby_on_rails_3'      : 'ror3',
+            \   'ruby_on_rails_4'      : 'ror4',
+            \   'ruby_on_rails_5'      : 'ror5',
+            \   'semantic_ui'          : 'semantic',
+            \   'sencha_touch'         : 'sencha',
+            \   'spring_framework'     : 'spring',
+            \   'unity_3d'             : 'unity3d',
+            \   'vmware_vsphere'       : 'vsphere'
+            \ }
 " }}}
 
 " FUNCTIONS
@@ -140,9 +167,14 @@ function! s:FromInput() abort " {{{1
 	return [l:input, l:docset]
 endfunction
 function! s:Zeal(docset, query) abort " {{{1
-	" Execute Zeal with the docset and query passed in the arguments.
+	" Execute Zeal with the docset(s) and query passed in the arguments.
+	" a:docset can contain multiple docsets e.g: 'docs1,docs2'
 
-	let l:docset = !empty(a:docset) ? tr(a:docset, '_', ' ') . ':' : ''
+	let l:docset = ''
+        for l:d in map(split(a:docset, ','), 'tr(v:val, " ", "_")')
+            let l:docset .= get(s:docset_keywords, l:d, l:d) . ','
+        endfor
+        let l:docset = !empty(l:docset) ? l:docset[0:-2] . ':' : ''
 	let l:query = !empty(a:query) ? escape(a:query, '#%') : ''
 	let l:focus = g:zv_keep_focus && has('unix') &&
 				\	executable('wmctrl') && v:windowid !=# 0 ?
