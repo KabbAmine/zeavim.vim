@@ -1,5 +1,5 @@
 " CREATION     : 2015-12-21
-" MODIFICATION : 2016-10-07
+" MODIFICATION : 2017-12-11
 
 " VARIABLES
 " =====================================================================
@@ -61,12 +61,21 @@ endfunction
 function! s:GetDocsetsList() abort " {{{1
 	" Return a list (Strings separated by \n) of docset names.
 
-	let s:docsetList = values(s:docsetsDic)
+	let l:docsList = values(s:docsetsDic)
 	if exists('g:zv_docsets_dir')
-		call extend(s:docsetList, s:GetDocsetsFromDir())
+		call extend(l:docsList, s:GetDocsetsFromDir())
 	endif
-	" Remove duplicates (http://stackoverflow.com/questions/6630860/remove-duplicates-from-a-list-in-vim)
-	return filter(copy(s:docsetList), 'index(s:docsetList, v:val, v:key+1)==-1')
+	let l:docs = []
+	for l:d in l:docsList
+            " Split multiple docsets keys (e.g. javascript,node)
+	    if !empty(matchstr(l:d, ','))
+	        let l:docs += split(l:d, ',')
+            else
+                call add(l:docs, l:d)
+            endif
+        endfor
+        " Remove duplicates (http://stackoverflow.com/questions/6630860/remove-duplicates-from-a-list-in-vim)
+	return filter(l:docs, 'index(l:docs, v:val, v:key+1)==-1')
 endfunction
 function! s:GetDocset(file, ext, ft) abort " {{{1
 	" Try to guess docset from what defined in g:zv_get_docset_by
