@@ -263,7 +263,7 @@ function! zeavim#CompleteDocsets(a, c, p) abort " {{{1
     else
         let l:candidates = l:docs
     endif
-    return filter(l:candidates, 'v:val =~ a:a')
+    return filter(l:candidates, 'v:val =~ "^" . a:a')
 endfunction
 " 1}}}
 
