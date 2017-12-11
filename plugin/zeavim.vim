@@ -1,7 +1,7 @@
 " Global plugin that allows executing Zeal from Vim.
 " Version     : 2.2.0
 " Creation    : 2014-04-14
-" Last Change : 2016-09-27
+" Last Change : 2017-12-11
 " Maintainer  : Kabbaj Amine <amine.kabb@gmail.com>
 " License     : This file is placed in the public domain.
 
@@ -56,7 +56,7 @@ nnoremap <silent> <SID>ZVMotion
 " One unique command
 command! -range -bang Zeavim
 			\	call zeavim#SearchFor('<bang>', expand('<cword>'), visualmode())
-command! -complete=custom,zeavim#CompleteDocsets -nargs=* Docset
+command! -complete=customlist,zeavim#CompleteDocsets -nargs=? Docset
 			\	call zeavim#DocsetInBuffer(<f-args>)
 
 " Keep old command names for compatibility

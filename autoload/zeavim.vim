@@ -131,7 +131,7 @@ function! s:FromInput() abort " {{{1
 
 	let l:docset = input('Docset: ',
 				\ s:SetDocset(),
-				\ 'custom,zeavim#CompleteDocsets'
+				\ 'customlist,zeavim#CompleteDocsets'
 				\ )
 	redraw!
 	call s:Echo(2, 'Zeal (' . l:docset . ')')
@@ -190,8 +190,20 @@ function! zeavim#SearchFor(...) abort " {{{1
 		endif
 	endif
 endfunction
-function! zeavim#CompleteDocsets(A, L, P) abort " {{{1
-	return join(sort(s:GetDocsetsList()), "\n") . "\n"
+function! zeavim#CompleteDocsets(a, c, p) abort " {{{1
+    let l:docs = sort(s:GetDocsetsList())
+    if a:a =~# ',$'
+        " e.g 'docset1,'
+        let l:candidates = map(copy(l:docs), 'a:a . v:val')
+    elseif a:a =~# ',\S*'
+        " e.g 'docset1,do'
+        let l:doc_start = split(a:a, ',')[-1]
+        let l:docs = filter(l:docs, 'v:val =~ "^" . l:doc_start')
+        let l:candidates = map(l:docs, 'a:a . v:val[len(l:doc_start):]')
+    else
+        let l:candidates = l:docs
+    endif
+    return filter(l:candidates, 'v:val =~ a:a')
 endfunction
 function! zeavim#OperatorFun(...) abort " {{{1
 	call zeavim#SearchFor('', getline('.')[col("'[") - 1 : col("']") - 1])
