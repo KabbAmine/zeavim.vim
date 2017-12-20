@@ -3,6 +3,22 @@ CHANGELOG
 
 Starting from version `2.0.0` the plugin uses [semantic versionning 2.0.0](http://semver.org/).
 
+2.3.0 <small>(2017-12-20)</small>
+------------------------------
+
+* Improve support of multiple docsets.
+* Update the documentation.
+* Some refactoring.
+* Fix some issues.
+
+### Features
+
+* New option `g:zv_keep_focus` for keeping focus on vim after executing zeal.
+* Support files with double extensions.
+* New option `g:zv_zeal_args` to add arguments/flags to the execution's command.
+
+------------------------------
+
 2.2.0 <small>(2016-07-19)</small>
 ------------------------------
 
