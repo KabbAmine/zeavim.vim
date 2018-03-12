@@ -100,7 +100,7 @@ The used keyword depends of your vim plugin manager: >
 `<Leader>z` or `<Plug>ZVVisSelection`
     Same as `<Leader>z` but use visual selection instead of `<word>.`
 
-`gz{motion/text-object}` or `<Plug>ZVMotion`
+`gz{motion/text-object}` or `<Plug>ZVOperator`
     Same as <Leader>z but use the result of a motion/text-object instead of
     `<word>.`
 

@@ -32,8 +32,8 @@ if !exists('g:zv_disable_mapping')
     if !hasmapto('<Plug>ZVKeyDocset')
         nmap <unique> <Leader><Leader>z <Plug>ZVKeyDocset
     endif
-    if !hasmapto('<Plug>ZVMotion')
-        nmap <unique> gz <Plug>ZVMotion
+    if !hasmapto('<Plug>ZVOperator')
+        nmap <unique> gz <Plug>ZVOperator
     endif
 endif
 
@@ -43,7 +43,7 @@ vnoremap <unique> <silent> <script> <Plug>ZVVisSelection
             \ :call zeavim#SearchFor('', '', 'v')<CR>
 nnoremap <unique> <silent> <script> <Plug>ZVKeyDocset
             \ :call zeavim#SearchFor('!')<CR>
-nnoremap <unique> <silent> <script> <Plug>ZVMotion
+nnoremap <unique> <silent> <script> <Plug>ZVOperator
             \ <Esc>:setlocal operatorfunc=zeavim#OperatorFun<CR>g@
 " }}}
 
@@ -53,8 +53,10 @@ command! -range -bang Zeavim
 command! -range ZeavimV call zeavim#SearchFor('', '', 'v')
 command! -complete=customlist,zeavim#CompleteDocsets -nargs=? Docset
             \ call zeavim#DocsetInBuffer(<f-args>)
+" }}}
 
-" Keep old command names for compatibility
+" Keep old plugs/commands for compatibility {{{1
+nmap <Plug>ZVMotion <Plug>ZVOperator
 command! -range ZvV ZeavimV
 command! ZVKeyDocset Zeavim!
 " }}}

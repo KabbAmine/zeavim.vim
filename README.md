@@ -72,9 +72,11 @@ Use the following to change the mappings:
 ```vim
 nmap <leader>z <Plug>Zeavim
 vmap <leader>z <Plug>ZVVisSelection
-nmap gz <Plug>ZVMotion
+nmap gz <Plug>ZVOperator
 nmap <leader><leader>z <Plug>ZVKeyDocset
 ```
+
+**N.B:** The old `<Plug>ZVMotion` is still available to maintain compatibility.
 
 Commands <a id="commands"></a>
 ------------------------------
@@ -197,7 +199,7 @@ nmap gzz <Plug>Zeavim
 vmap gzz <Plug>ZVVisSelection
 nmap <leader>z <Plug>ZVKeyDocset
 nmap gZ <Plug>ZVKeyDocset<CR>
-nmap gz <Plug>ZVMotion
+nmap gz <Plug>ZVOperator
 let g:zv_keep_focus = 0
 let g:zv_file_types = {
             \   'help'                : 'vim',
