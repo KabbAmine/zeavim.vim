@@ -2,7 +2,7 @@
 " Global plugin that allows executing Zeal from Vim.
 " Version     : 2.3.0
 " Creation    : 2014-04-14
-" Last Change : 2017-12-11
+" Last Change : 2018-03-12
 " Maintainer  : Kabbaj Amine <amine.kabb@gmail.com>
 " License     : This file is placed in the public domain.
 " ==========================================================
@@ -39,7 +39,7 @@ endif
 
 nnoremap <unique> <silent> <script> <Plug>Zeavim
             \ :call zeavim#SearchFor('', expand('<cword>'))<CR>
-nnoremap <unique> <silent> <script> <Plug>ZVVisSelection
+vnoremap <unique> <silent> <script> <Plug>ZVVisSelection
             \ :call zeavim#SearchFor('', '', 'v')<CR>
 nnoremap <unique> <silent> <script> <Plug>ZVKeyDocset
             \ :call zeavim#SearchFor('!')<CR>
