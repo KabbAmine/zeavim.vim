@@ -1,6 +1,6 @@
 " ==========================================================
 " Creation     : 2015-12-21
-" Last change  : 2017-12-11
+" Last change  : 2018-03-12
 " ==========================================================
 
 
@@ -75,6 +75,10 @@ let s:docset_keywords = {
             \   'vmware_vsphere'       : 'vsphere'
             \ }
 " }}}
+
+" Utilities {{{1
+let s:black_hole = has('unix') ? '2> /dev/null' : ''
+" 1}}}
 
 " ==========================================================
 " 			FUNCTIONS
@@ -203,18 +207,16 @@ function! s:Zeal(docset, query) abort " {{{1
     endfor
     let l:docset = !empty(l:docset) ? l:docset[0:-2] . ':' : ''
     let l:query = !empty(a:query) ? escape(a:query, '#%') : ''
-    let l:focus = g:zv_keep_focus && has('unix') &&
-                \	executable('wmctrl') && v:windowid !=# 0 ?
-                \		'&& wmctrl -ia ' . v:windowid . ' ' : ''
-    let l:cmd = printf('!%s%s %s %s %s%s &',
-                \ (has('unix') ? '' : 'start '),
-                \ g:zv_zeal_executable,
-                \ g:zv_zeal_args,
-                \ shellescape(l:docset . l:query),
-                \ l:focus,
-                \ (has('unix') ? '2> /dev/null' : '')
-                \ )
-    silent execute l:cmd
+
+    let l:cmd = has('unix') ? '' : 'start'
+    let l:cmd .= g:zv_zeal_executable
+    let l:cmd .= g:zv_zeal_args ? ' ' . g:zv_zeal_args : ''
+    let l:cmd .= ' ' . shellescape(l:docset . l:query)
+    let l:cmd .= ' ' . s:black_hole
+    if g:zv_keep_focus && has('unix') && executable('wmctrl') && v:windowid !=# 0
+        let l:cmd .= printf(' && wmctrl -ia %s %s', v:windowid, s:black_hole)
+    endif
+    silent execute '!' . l:cmd . ' &'
     redraw!
 endfunction
 " 1}}}
