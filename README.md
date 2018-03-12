@@ -45,7 +45,7 @@ Usage <a id="usage"></a>
 
 There are 3 ways of using zeavim:
 
-1. `<leader>z` or `:Zeavim`
+1. `<leader>z` or `:Zeavim\ZeavimV`
 
 	Search for the word under cursor or the current visual selection with the docset defined automatically<sup>[+](#plus)</sup>.
 
@@ -82,7 +82,8 @@ Commands <a id="commands"></a>
 ### Main commands
 
 ```vim
-:Zeavim     " NORMAL & VISUAL modes (The same as <Plug>Zeavim & <Plug>ZVVisSelection)
+:Zeavim     " NORMAL mode (The same as <Plug>Zeavim)
+:ZeavimV    " VISUAL mode (The same as <Plug>ZVVisSelection)
 :Zeavim!    " Ask for docset and query (The same as <Plug>ZVKeyDocset)
 ```
 

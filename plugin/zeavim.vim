@@ -49,12 +49,13 @@ nnoremap <unique> <silent> <script> <Plug>ZVMotion
 
 " Commands {{{1
 command! -range -bang Zeavim
-            \ call zeavim#SearchFor('<bang>', expand('<cword>'), visualmode())
+            \ call zeavim#SearchFor('<bang>', expand('<cword>'), '')
+command! -range ZeavimV call zeavim#SearchFor('', '', 'v')
 command! -complete=customlist,zeavim#CompleteDocsets -nargs=? Docset
             \ call zeavim#DocsetInBuffer(<f-args>)
 
 " Keep old command names for compatibility
-command! -range ZvV call zeavim#SearchFor('', '', 'v')
+command! -range ZvV ZeavimV
 command! ZVKeyDocset Zeavim!
 " }}}
 

@@ -1,6 +1,6 @@
 *zeavim.txt*	Execute the documentation browser Zeal from Vim.
 
-    For Vim version 7.0 and above	Last change: 2017-12-20
+    For Vim version 7.0 and above	Last change: 2018-03-12
 
 	ZEAVIM - EXECUTE THE DOCUMENTATION BROWSER ZEAL FROM VIM~
 			from Kabbaj Amine~
@@ -71,7 +71,7 @@ The used keyword depends of your vim plugin manager: >
 ========================================================================
 3. |USAGE|				*zeavim-usage*
 
-1.  `<leader>z` or `Zeavim`
+1.  `<leader>z` or `Zeavim/ZeavimV`
     Search for the word under cursor or the current visual selection with the
     docset defined automatically+.
 
@@ -126,7 +126,8 @@ For example: >
 *zeavim-commands:main*
 
 A unique command `Zeavim` is provided. >
-    :Zeavim     " NORMAL & VISUAL modes
+    :Zeavim     " NORMAL mode
+    :ZeavimV    " VISUAL mode
     :Zeavim!    " Ask for docset & query
 
 The commands `ZvV` and `ZVKeyDocset` are still available to maintain
