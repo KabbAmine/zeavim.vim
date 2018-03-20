@@ -2,7 +2,7 @@
 " Global plugin that allows executing Zeal from Vim.
 " Version     : 2.3.0
 " Creation    : 2014-04-14
-" Last Change : 2018-03-12
+" Last Change : 2018-03-20
 " Maintainer  : Kabbaj Amine <amine.kabb@gmail.com>
 " License     : This file is placed in the public domain.
 " ==========================================================
@@ -24,16 +24,24 @@ set cpoptions&vim
 " Default mappings {{{1
 if !exists('g:zv_disable_mapping')
     if !hasmapto('<Plug>Zeavim')
-        nmap <unique> <Leader>z <Plug>Zeavim
+        if empty(mapcheck('<Leader>z'))
+            nmap <unique> <Leader>z <Plug>Zeavim
+        endif
     endif
     if !hasmapto('<Plug>ZVVisSelection')
-        vmap <unique> <Leader>z <Plug>ZVVisSelection
+        if empty(mapcheck('<Leader>z', 'v'))
+            vmap <unique> <Leader>z <Plug>ZVVisSelection
+        endif
     endif
     if !hasmapto('<Plug>ZVKeyDocset')
-        nmap <unique> <Leader><Leader>z <Plug>ZVKeyDocset
+        if empty(mapcheck('<Leader><Leader>z'))
+            nmap <unique> <Leader><Leader>z <Plug>ZVKeyDocset
+        endif
     endif
     if !hasmapto('<Plug>ZVOperator')
-        nmap <unique> gz <Plug>ZVOperator
+        if empty(mapcheck('gz'))
+            nmap <unique> gz <Plug>ZVOperator
+        endif
     endif
 endif
 
