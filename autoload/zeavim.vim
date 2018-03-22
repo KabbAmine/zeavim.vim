@@ -1,6 +1,6 @@
 " ==========================================================
 " Creation     : 2015-12-21
-" Last change  : 2018-03-12
+" Last change  : 2018-03-22
 " ==========================================================
 
 
@@ -208,15 +208,15 @@ function! s:Zeal(docset, query) abort " {{{1
     let l:docset = !empty(l:docset) ? l:docset[0:-2] . ':' : ''
     let l:query = !empty(a:query) ? escape(a:query, '#%') : ''
 
-    let l:cmd = has('unix') ? '' : 'start'
-    let l:cmd .= g:zv_zeal_executable
-    let l:cmd .= g:zv_zeal_args ? ' ' . g:zv_zeal_args : ''
-    let l:cmd .= ' ' . shellescape(l:docset . l:query)
-    let l:cmd .= ' ' . s:black_hole
+    let l:cmd = has('unix') ? [''] : ['start']
+    call add(l:cmd, shellescape(g:zv_zeal_executable))
+    call add(l:cmd, g:zv_zeal_args)
+    call add(l:cmd, shellescape(l:docset . l:query))
+    call add(l:cmd, s:black_hole)
     if g:zv_keep_focus && has('unix') && executable('wmctrl') && v:windowid !=# 0
-        let l:cmd .= printf(' && wmctrl -ia %s %s', v:windowid, s:black_hole)
+        call add(l:cmd, printf('&& wmctrl -ia %s %s', v:windowid, s:black_hole))
     endif
-    silent execute '!' . l:cmd . ' &'
+    silent execute '!' . join(filter(copy(l:cmd), '!empty(v:val)')) . ' &'
     redraw!
 endfunction
 " 1}}}
