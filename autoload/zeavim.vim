@@ -1,6 +1,6 @@
 " ==========================================================
 " Creation     : 2015-12-21
-" Last change  : 2018-03-22
+" Last change  : 2019-06-07
 " ==========================================================
 
 
@@ -59,6 +59,7 @@ let s:docset_keywords = {
             \   'jquery_ui'            : 'jqueryui',
             \   'lo-dash'              : 'lodash',
             \   'net_framework'        : 'net',
+            \   'opencv_c++'           : 'cvcpp',           
             \   'play_java'            : 'playjava',
             \   'play_scala'           : 'playscala',
             \   'polymer.dart'         : 'polymerdart',
