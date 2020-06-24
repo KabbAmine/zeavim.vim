@@ -174,6 +174,8 @@ Please refer to the [doc file](./doc/zeavim.txt) for a full description of the o
   let g:zv_get_docset_by = ['ext', 'file', 'ft']
   ```
 
+  to guess docset is by pattern matching, the item & its order is a matter.
+
 ----------
 
 * `g:zv_docsets_dir` - Directory where are stored zeal's docsets for command completion purpose.
