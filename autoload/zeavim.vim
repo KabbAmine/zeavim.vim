@@ -141,10 +141,9 @@ function! s:GetDocset(file, ext, ft) abort " {{{1
         for l:k in keys(s:docsetsDic)
             if match(a:{l:t}, l:k) ==# 0
                 let l:docset = s:docsetsDic[l:k]
-                break
-            endif
-            if !empty(l:docset)
-                break
+                if !empty(l:docset)
+                    return l:docset
+                endif
             endif
         endfor
     endfor
@@ -168,7 +167,7 @@ function! s:SetDocset() abort " {{{1
 
     let l:docset = !empty(getbufvar('%', 'manualDocset'))
                 \ ? getbufvar('%', 'manualDocset')
-                \ :s:GetDocset(expand('%:p:t'), expand('%:e:e'), &ft)
+                \ : s:GetDocset(expand('%:p:t'), expand('%:p:e'), &ft)
     return tolower(l:docset)
 endfunction
 " 1}}}

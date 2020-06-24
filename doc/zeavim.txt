@@ -248,6 +248,8 @@ You can set a specific order or remove a criteria: >
     " and finally to the type.
     let g:zv_get_docset_by = ['ext', 'file', 'ft']
 
+Note to guess docset is by pattern matching, the item & its order is a matter.
+
 ------------------------------------------------------------------------
 6.6. Docset name completion~
 *zeavim-settings:docset-completion*
