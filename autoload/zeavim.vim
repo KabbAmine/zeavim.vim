@@ -209,14 +209,17 @@ function! s:Zeal(docset, query) abort " {{{1
     let l:docset = !empty(l:docset) ? l:docset[0:-2] . ':' : ''
     let l:query = !empty(a:query) ? escape(a:query, '#%') : ''
 
+    if g:zv_keep_focus
+        let l:prevent_activation = 'true'
+    else
+        let l:prevent_activation = 'false'
+    endif
+
     let l:cmd = has('unix') ? [''] : ['start']
     call add(l:cmd, shellescape(g:zv_zeal_executable))
     call add(l:cmd, g:zv_zeal_args)
-    call add(l:cmd, shellescape(l:docset . l:query))
+    call add(l:cmd, shellescape('dash-plugin://query=' . l:docset . l:query . '&prevent_activation=' . l:prevent_activation))
     call add(l:cmd, s:black_hole)
-    if g:zv_keep_focus && has('unix') && executable('wmctrl') && v:windowid !=# 0
-        call add(l:cmd, printf('&& wmctrl -ia %s %s', v:windowid, s:black_hole))
-    endif
     silent execute '!' . join(filter(copy(l:cmd), '!empty(v:val)')) . ' &'
     redraw!
 endfunction
